@@ -1,0 +1,17 @@
+---
+description: Project standards for SOLID design, environment file safety, and method annotations
+alwaysApply: true
+---
+
+# Project Standards
+
+- Follow SOLID principles when designing or changing application code.
+- Keep classes focused on one responsibility and avoid mixing persistence, validation, presentation, and business logic in the same class.
+- Prefer dependency injection and contracts over hard-coded concrete dependencies when code needs collaboration between services.
+- Keep public interfaces small and specific to their callers; do not force classes to depend on methods they do not use.
+- Extend behavior with new focused classes or methods when practical instead of adding brittle condition-heavy changes to existing code.
+- Do not scan, read, print, summarize, or inspect `.env` files. Use `.env.example`, config files, or ask the user for specific environment values instead.
+- Do not use broad searches that include environment files or secret-bearing files such as `.env`, `.env.*`, credentials, keys, or private certificates.
+- Add method annotations/docblocks based on the method logic when they clarify intent, parameters, return values, exceptions, side effects, or non-obvious behavior.
+- Keep annotations useful and current. Avoid noisy comments that only restate the method name or obvious code.
+

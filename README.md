@@ -1,59 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# UShop
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+UShop is a Laravel-based e-commerce application for listing products by seller and category. The current build is focused on a Livewire-first storefront/admin experience, with Laravel Horizon prepared for queue processing and Laravel Debugbar available during local development for query troubleshooting.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Laravel 12
+- Livewire 4 with Flux UI
+- Laravel Sail for Docker-based local development
+- Laravel Horizon for Redis-backed queue monitoring
+- Laravel Pint for code style
+- Debugbar for local debugging
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Domain Model
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The application currently models a simple catalog marketplace:
 
-## Learning Laravel
+- Categories group products for browsing and filtering.
+- Product sellers own product listings and keep cached seller counters for fast profile display.
+- Products store the current catalog price, discount, stock, rating, sold count, shipping origin, and required links to a category and seller.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Historical order pricing is expected to be stored later on order item records. Because of that, current product pricing lives directly on the `products` table instead of a separate product price history table.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Model Relationships
 
-## Laravel Sponsors
+`Category`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Has many `Product` records through `products()`.
+- Stores `name`.
 
-### Premium Partners
+`ProductSeller`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Has many `Product` records through `products()`.
+- Stores `name`, `address`, `total_products`, `total_followers`, and `total_products_sold`.
+- Counter fields are cached values intended for seller profile and listing performance displays.
 
-## Contributing
+`Product`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Belongs to `Category` through `category()`.
+- Belongs to `ProductSeller` through `seller()`.
+- Stores `name`, `description`, `price`, nullable `discount`, `available_quantity`, `total_sold`, `shipped_from`, and nullable `rating`.
+- Requires both `category_id` and `product_seller_id`.
 
-## Code of Conduct
+## Local Development
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Install dependencies:
 
-## Security Vulnerabilities
+```bash
+composer install
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Start the Sail containers:
 
-## License
+```bash
+./vendor/bin/sail up -d
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Run migrations:
+
+```bash
+./vendor/bin/sail artisan migrate
+```
+
+Start the app tooling:
+
+```bash
+composer run dev
+```
+
+Horizon is available at `/horizon` when the app is running.
+
+## Quality Checks
+
+Run the test suite:
+
+```bash
+php artisan test
+```
+
+Check code style:
+
+```bash
+./vendor/bin/pint --test
+```

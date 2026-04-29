@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use Database\Factories\ProductSellerFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductSeller extends Model
 {
+    /** @use HasFactory<ProductSellerFactory> */
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

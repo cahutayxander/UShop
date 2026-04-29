@@ -53,13 +53,21 @@ npm install
 Start the Sail containers:
 
 ```bash
-./vendor/bin/sail up -d
+./scripts/run-local
 ```
 
 Run migrations:
 
 ```bash
-./vendor/bin/sail artisan migrate
+./sail artisan migrate
+```
+
+This project includes a root `./sail` shortcut that forwards commands to `./vendor/bin/sail`, so Sail commands can stay short.
+
+Stop the Sail containers:
+
+```bash
+./scripts/stop-local
 ```
 
 Start the app tooling:

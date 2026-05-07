@@ -15,19 +15,24 @@ abstract class BaseRepository implements BaseInterface
     /**
      * Get all model records.
      *
+     * @param  array<string>  $relations
      * @return Collection<int, Model>
      */
-    public function all(): Collection
+    public function all(array $relations = []): Collection
     {
-        return $this->model->newQuery()->get();
+        return $this->model->newQuery()->with($relations)->get();
     }
 
     /**
      * Find a model record by its primary key.
+     *
+     * @param  int|string  $id
+     * @param  array<string>  $relations
+     * @return ?Model
      */
-    public function find(int|string $id): ?Model
+    public function find(int|string $id, array $relations = []): ?Model
     {
-        return $this->model->newQuery()->find($id);
+        return $this->model->newQuery()->with($relations)->find($id);
     }
 
     /**

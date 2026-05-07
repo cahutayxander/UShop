@@ -6,6 +6,7 @@ use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -55,5 +56,25 @@ class Product extends Model
     public function seller(): BelongsTo
     {
         return $this->belongsTo(ProductSeller::class, 'product_seller_id');
+    }
+
+    /**
+     * Get the product variants for this product.
+     *
+     * @return HasMany<ProductVariant, $this>
+     */
+    public function productVariants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class);
+    }
+
+    /**
+     * Get the product reviews for this product.
+     *
+     * @return HasMany<ProductReview, $this>
+     */
+    public function productReviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
     }
 }

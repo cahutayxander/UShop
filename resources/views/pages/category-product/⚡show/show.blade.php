@@ -33,17 +33,17 @@
                     </h1>
 
                     <div class="mt-3 flex flex-wrap items-center gap-4 text-sm text-slate-600">
-                        <div><span class="font-semibold text-slate-900">4.9</span></div>
+                        <div><span class="font-semibold text-slate-900"> {{ $this->starRating }} </span></div>
                         <div class="text-[#ee4d2d]">★★★★★</div>
-                        <div><span class="font-semibold text-slate-900">99</span> Ratings</div>
-                        <div><span class="font-semibold text-slate-900"> {{ $this->product->total_sold }} </span> Sold</div>
+                        <div><span class="font-semibold text-slate-900"> {{ $this->totalRatings }} </span> Ratings</div>
+                        <div><span class="font-semibold text-slate-900"> {{ $this->totalSold }} </span> Sold</div>
                     </div>
 
                     <div class="mt-4 rounded-sm bg-[#fafafa] px-4 py-4">
                         <div class="flex flex-wrap items-center gap-2">
-                            <span class="text-4xl font-bold text-[#ee4d2d]">₱149 - ₱159</span>
-                            <span class="text-lg text-slate-400 line-through">₱259</span>
-                            <span class="rounded-sm bg-[#ee4d2d]/10 px-1.5 py-0.5 text-xs font-semibold text-[#ee4d2d]">-42%</span>
+                            <span class="text-4xl font-bold text-[#ee4d2d]"> {{ $this->sellingPriceRange }} </span>
+                            <span class="text-lg text-slate-400 line-through"> {{ $this->regularPrice }} </span>
+                            <span class="rounded-sm bg-[#ee4d2d]/10 px-1.5 py-0.5 text-xs font-semibold text-[#ee4d2d]">-{{ $this->discountPercentage }}% </span>
                         </div>
                     </div>
 
@@ -52,11 +52,10 @@
                             <p class="text-slate-500">Quantity</p>
                             <div class="flex items-center gap-3">
                                 <div class="inline-flex items-center rounded-sm border border-slate-300">
-                                    <button type="button" class="grid size-9 place-items-center text-slate-500">-</button>
-                                    <span class="grid h-9 min-w-10 place-items-center border-x border-slate-300 text-sm">1</span>
-                                    <button type="button" class="grid size-9 place-items-center text-slate-500">+</button>
+                                    <button type="button" wire:click="decrementQuantity" class="grid size-9 place-items-center text-slate-500 cursor-pointer">-</button>
+                                    <span class="grid h-9 min-w-10 place-items-center border-x border-slate-300 text-sm"> {{ $totalQuantity }} </span>
+                                    <button type="button" wire:click="incrementQuantity" class="grid size-9 place-items-center text-slate-500 cursor-pointer">+</button>
                                 </div>
-                                <span class="text-sm text-slate-600">IN STOCK</span>
                             </div>
                         </div>
                     </div>

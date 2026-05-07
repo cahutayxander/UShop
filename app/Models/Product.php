@@ -22,12 +22,7 @@ class Product extends Model
         'product_seller_id',
         'name',
         'description',
-        'price',
-        'discount',
-        'available_quantity',
         'total_sold',
-        'shipped_from',
-        'rating',
     ];
 
     /**
@@ -38,11 +33,7 @@ class Product extends Model
     protected function casts(): array
     {
         return [
-            'price' => 'decimal:2',
-            'discount' => 'decimal:2',
-            'available_quantity' => 'integer',
             'total_sold' => 'integer',
-            'rating' => 'decimal:2',
         ];
     }
 

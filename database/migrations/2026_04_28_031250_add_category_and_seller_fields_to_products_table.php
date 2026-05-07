@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->foreignId('category_id')->after('id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_seller_id')->after('category_id')->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('total_sold')->default(0)->after('available_quantity');
-            $table->string('shipped_from')->after('total_sold');
+            $table->unsignedInteger('total_sold')->default(0)->after('category_id');
         });
     }
 
@@ -31,7 +30,6 @@ return new class extends Migration
                 'category_id',
                 'product_seller_id',
                 'total_sold',
-                'shipped_from',
             ]);
         });
     }

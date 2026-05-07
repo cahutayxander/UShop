@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $users = User::factory()->count(10)->create();
+        
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -37,14 +39,26 @@ class DatabaseSeeder extends Seeder
             ->count(2)
             ->create();
 
-        $categories->each(function (Category $category) use ($sellers): void {
-            Product::factory()
+        $categories->each(function (Category $category) use ($sellers, $users): void {
+            $products = Product::factory()
                 ->count(10)
                 ->state(fn (): array => [
                     'category_id' => $category->id,
                     'product_seller_id' => $sellers->random()->id,
                 ])
                 ->create();
+
+            foreach ($products as $product) {
+                \App\Models\ProductVariant::factory()->count(rand(1, 4))->create(['product_id' => $product->id]);
+                
+                $numReviews = rand(0, 5);
+                if ($numReviews > 0) {
+                    \App\Models\ProductReview::factory()->count($numReviews)->create([
+                        'product_id' => $product->id,
+                        'user_id' => $users->random()->id,
+                    ]);
+                }
+            }
         });
 
         $sellers->each(function (ProductSeller $seller): void {

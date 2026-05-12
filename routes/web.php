@@ -8,5 +8,18 @@ function addPrefix(string $path): string
 }
 
 Route::livewire('/', addPrefix('main.list'));
-Route::livewire('/category/{category}', addPrefix('category-product.list'));
-Route::livewire('/category/{category}/{product}', addPrefix('category-product.show'));
+
+Route::prefix('category')->group(function() {
+    Route::livewire('/{category}', addPrefix('category-product.list'));
+    Route::livewire('/{category}/{product}', addPrefix('category-product.show'));
+});
+
+Route::prefix('seller')->group(function() {
+    Route::livewire('/signup', addPrefix('auth.seller-signup'));
+    Route::livewire('/login', addPrefix('auth.seller-login'));
+});
+
+Route::prefix('buyer')->group(function() {
+    Route::livewire('/signup', addPrefix('auth.buyer-signup'));
+    Route::livewire('/login', addPrefix('auth.buyer-login'));
+});

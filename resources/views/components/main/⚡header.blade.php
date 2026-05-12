@@ -12,9 +12,9 @@ new class extends Component
     <div class="mx-auto flex max-w-[1200px] flex-col gap-3 px-4 py-3 lg:px-0">
         <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-medium sm:text-sm">
             <nav class="flex flex-wrap items-center gap-3">
-                <a href="#" class="transition hover:text-orange-100">Seller Centre</a>
+                <a href="/seller/login" wire:navigate class="transition hover:text-orange-100">Seller Centre</a>
                 <span class="hidden h-4 w-px bg-orange-300 sm:block"></span>
-                <a href="#" class="transition hover:text-orange-100">Be a Seller</a>
+                <a href="/seller/signup" wire:navigate class="transition hover:text-orange-100">Be a Seller</a>
                 <span class="hidden h-4 w-px bg-orange-300 sm:block"></span>
                 <a href="#" class="transition hover:text-orange-100">Download App</a>
             </nav>
@@ -22,7 +22,9 @@ new class extends Component
             <nav class="flex flex-wrap items-center gap-3">
                 <a href="#" class="transition hover:text-orange-100">Notifications</a>
                 <a href="#" class="transition hover:text-orange-100">Help</a>
-                <a href="#" class="font-semibold transition hover:text-orange-100">Login</a>
+                <a href="/buyer/signup" wire:navigate class="font-semibold transition hover:text-orange-100">Sign Up</a>
+                <span class="hidden h-4 w-px bg-orange-300 sm:block"></span>
+                <a href="/buyer/login" wire:navigate class="font-semibold transition hover:text-orange-100">Login</a>
             </nav>
         </div>
 

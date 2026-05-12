@@ -18,6 +18,7 @@ class ProductRepository extends BaseRepository implements ProductInterface
         return $this->model->newQuery()
             ->where('category_id', $categoryId)
             // ->orderBy($sortBy, $sortOrder)
+            ->with('productVariants', fn ($query) => $query->orderBy('selling_price'))
             ->paginate($perPage);
     }
 }

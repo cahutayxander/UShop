@@ -4,18 +4,27 @@ use Livewire\Component;
 use App\Interfaces\ProductInterface;
 use App\Models\Product;
 use Livewire\Attributes\Computed;
+use App\Actions\CalculateProductDiscountAction;
+use App\Services\ProductPricingService;
 
 new class extends Component
 {
     public string $currency = '₱';
     public int $totalQuantity = 1;
+    public bool $isQtyExceeded = false;
 
     protected ProductInterface $productRepository;
+    protected CalculateProductDiscountAction $discountAction;
     public Product $product;
 
-    public function boot(ProductInterface $productRepository)
-    {
+    public function boot(
+        ProductInterface $productRepository, 
+        CalculateProductDiscountAction $discountAction,
+        ProductPricingService $pricingService
+    ) {
         $this->productRepository = $productRepository;
+        $this->discountAction = $discountAction;
+        $this->pricingService = $pricingService;
     }
 
     public function mount(Product $product)
@@ -54,45 +63,38 @@ new class extends Component
     }
 
     #[Computed]
-    public function hasMultipleVariants(): bool
-    {
-        return $this->productVariants()->count() > 1;
-    }
-
-    #[Computed]
     public function minimumSellingPrice()
     {
-        return $this->hasMultipleVariants() ? $this->productVariants()->min('selling_price') : $this->productVariants()->first()->selling_price;
+        return $this->pricingService->minimumSellingPrice($this->productVariants());
     }
 
     #[Computed]
     public function maximumSellingPrice()
     {
-        return $this->productVariants()->max('selling_price');
+        return $this->pricingService->maximumSellingPrice($this->productVariants());
     }
 
     #[Computed]
     public function sellingPriceRange(): string
     {
-        $minimumSellingPrice = $this->minimumSellingPrice();
-        
-        if ($this->hasMultipleVariants()) {
-            return $this->currency . $minimumSellingPrice . ' - ' . $this->currency . $this->maximumSellingPrice();
+        $priceRange = $this->pricingService->sellingPriceRange($this->productVariants());
+        if (is_array($priceRange)) {
+            return $this->currency . $priceRange['minimum_selling_price'] . ' - ' . $this->currency . $priceRange['maximum_selling_price'];
         }
-        
-        return $this->currency . $minimumSellingPrice;
+
+        return $this->currency . $priceRange;
     }
 
     #[Computed]
     public function regularPrice(): string
     {
-        return $this->productVariants->max('regular_price');
+        return $this->pricingService->regularPrice($this->productVariants());
     }
 
     #[Computed]
     public function discountPercentage(): string
     {
-        return number_format((($this->regularPrice() - $this->minimumSellingPrice()) / $this->regularPrice()) * 100);
+        return $this->discountAction->handle($this->minimumSellingPrice(), $this->regularPrice());
     }
 
     #[Computed]
@@ -113,5 +115,17 @@ new class extends Component
     public function incrementQuantity(): void
     {
         $this->totalQuantity++;
+    }
+
+    #[Computed]
+    public function availableColors(): array
+    {
+        return $this->productVariants()->unique('color')->pluck('color')->toArray();
+    }
+
+    #[Computed]
+    public function availableSizes(): array
+    {
+        return $this->productVariants()->unique('size')->pluck('size')->toArray();
     }
 };

@@ -47,7 +47,34 @@
                         </div>
                     </div>
 
-                    <div class="mt-5 space-y-4 text-sm">
+                    <div class="mt-5 space-y-5 text-sm">
+                        <div class="grid grid-cols-[120px_1fr] items-start gap-2">
+                            <p class="mt-2 text-slate-500">Color</p>
+                            <div class="flex flex-wrap items-center gap-3">
+                                @foreach($this->availableColors as $color)
+                                    <button type="button" class="relative inline-flex items-center gap-2 rounded-sm border border-[#ee4d2d] px-3 py-1.5 text-[#ee4d2d]">
+                                        <img src="https://picsum.photos/id/1020/24/24" alt="" class="size-6 rounded-sm object-cover">
+                                        {{ $color }}
+                                        <div class="absolute bottom-0 right-0 w-0 h-0 border-b-[16px] border-l-[16px] border-b-[#ee4d2d] border-l-transparent"></div>
+                                        <svg class="absolute bottom-0 right-0 h-2.5 w-2.5 text-white" viewBox="0 0 16 16" fill="currentColor">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z"></path>
+                                        </svg>
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-[120px_1fr] items-center gap-2">
+                            <p class="text-slate-500">Size</p>
+                            <div class="flex flex-wrap items-center gap-3">
+                                @foreach($this->availableSizes as $size)
+                                    <button type="button" class="inline-flex min-w-[80px] items-center justify-center rounded-sm border border-slate-200 px-4 py-2 text-slate-800 transition hover:border-[#ee4d2d] hover:text-[#ee4d2d]">
+                                        {{ $size }}
+                                    </button>
+                                @endforeach
+                            </div>
+                        </div>
+
                         <div class="grid grid-cols-[120px_1fr] items-center gap-2">
                             <p class="text-slate-500">Quantity</p>
                             <div class="flex items-center gap-3">
@@ -58,6 +85,11 @@
                                 </div>
                             </div>
                         </div>
+
+                        @if ($isQtyExceeded) 
+                            <p class="text-[#ee4d2d]"> You have reached the maximum quantity available for this item </p> 
+                        @endif
+
                     </div>
 
                     <div class="mt-7 flex flex-wrap gap-3">

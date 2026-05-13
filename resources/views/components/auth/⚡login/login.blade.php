@@ -1,7 +1,7 @@
 <div>
     <div class="flex justify-end">
         <div class="bg-white rounded p-8 shadow-lg w-full max-w-[400px]">
-            <h3 class="text-xl text-gray-800 mb-6">Sign Up</h3>
+            <h3 class="text-xl text-gray-800 mb-6">Login</h3>
             
             <form wire:submit="submit">
                 <div class="mb-4">
@@ -27,7 +27,7 @@
                 </button>
             </form>
 
-            <livewire:auth.third-party />
+            <livewire:auth.social-media />
         </div>
     </div>
 </div>

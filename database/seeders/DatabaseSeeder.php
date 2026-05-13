@@ -19,11 +19,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $users = User::factory()->count(10)->create();
-        
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+
+        $sellers = User::factory()->seller()->count(5)->create();
 
         $categories = Category::factory()
             ->count(4)
@@ -35,16 +32,18 @@ class DatabaseSeeder extends Seeder
             )
             ->create();
 
-        $sellers = ProductSeller::factory()
-            ->count(2)
-            ->create();
+        $productSellers = $sellers->map(function (User $seller): ProductSeller {
+            return ProductSeller::factory()->create([
+                'user_id' => $seller->id,
+            ]);
+        });
 
-        $categories->each(function (Category $category) use ($sellers, $users): void {
+        $categories->each(function (Category $category) use ($productSellers, $users): void {
             $products = Product::factory()
                 ->count(10)
                 ->state(fn (): array => [
                     'category_id' => $category->id,
-                    'product_seller_id' => $sellers->random()->id,
+                    'product_seller_id' => $productSellers->random()->id,
                 ])
                 ->create();
 
@@ -61,13 +60,14 @@ class DatabaseSeeder extends Seeder
             }
         });
 
-        $sellers->each(function (ProductSeller $seller): void {
-            $products = $seller->products();
+        $productSellers
+            ->each(function (ProductSeller $seller): void {
+                $products = $seller->products();
 
-            $seller->update([
-                'total_products' => $products->count(),
-                'total_products_sold' => $products->sum('total_sold'),
-            ]);
-        });
+                $seller->update([
+                    'total_products' => $products->count(),
+                    'total_products_sold' => $products->sum('total_sold'),
+                ]);
+            });
     }
 }

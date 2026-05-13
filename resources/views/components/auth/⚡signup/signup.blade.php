@@ -18,7 +18,7 @@
                 </button>
             </form>
 
-            <livewire:auth.third-party />
+            <livewire:auth.social-media />
         </div>
     </div>
 </div>

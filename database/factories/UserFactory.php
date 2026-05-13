@@ -3,9 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Enums\Role as RoleEnum;
 
 /**
  * @extends Factory<User>
@@ -25,6 +27,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'role_id' => Role::factory(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
@@ -40,6 +43,27 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function buyer()
+    {
+        return $this->state([
+            'role_id' => Role::where('name', RoleEnum::BUYER)->first()->id,
+        ]);
+    }
+
+    public function seller()
+    {
+        return $this->state([
+            'role_id' => Role::where('name', RoleEnum::BUYER)->first()->id,
+        ]);
+    }
+
+    public function admin()
+    {
+        return $this->state([
+            'role_id' => Role::where('name', RoleEnum::ADMIN)->first()->id,
         ]);
     }
 }

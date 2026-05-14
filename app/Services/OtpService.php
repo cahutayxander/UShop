@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Factories\OtpSenderFactory;
 use Illuminate\Support\Facades\Cache;
+use Exception;
 
 class OtpService
 {
@@ -21,13 +22,57 @@ class OtpService
     }
 
     /**
-     * Sends OTP code to the user
+     * Processes the OTP request
      * 
-     * @param string $via
+     * @param string $type
      * @param string $toWhom
      * @return void
      */
-    public function sendCode(string $via, string $toWhom): void
+    public function process(string $type, string $toWhom): void
+    {
+        $this->isTypeValid($type);
+
+        $this->processRequestRejection($toWhom);
+
+        $this->sendCode($type, $toWhom);
+    }
+
+    /**
+     * Checks if there is an existing OTP for the user
+     * 
+     * @param string $toWhom
+     * @return void
+     */
+    public function processRequestRejection(string $toWhom): void
+    {
+        if (! Cache::has($this->cacheKey($toWhom))) {
+            return;
+        }
+
+        throw new Exception("Looks like you already requested an OTP! Please try again in a few minutes.");
+    }
+
+    /**
+     * Checks if the type of OTP is valid
+     * 
+     * @param string $type
+     * @return void
+     */
+    public function isTypeValid(string $type): void
+    {
+        if (! in_array($type, ['email', 'sms'])) {
+            throw new Exception("Invalid OTP type");
+        }
+    }
+
+    /**
+     * Sends OTP code to the user
+     * 
+     * @param string $type
+     * @param string $toWhom
+     * @return void
+     */
+    public function sendCode(string $type, string $toWhom): void
     {
         // TODO: later on let us create a service or class helper that would generate the code
         $code = rand(100000, 999999);
@@ -37,7 +82,7 @@ class OtpService
         Cache::put($this->cacheKey($toWhom), $code, $expiration);
 
         // 2. Get the right sender class from the factory
-        $otpSender = OtpSenderFactory::make($via);
+        $otpSender = OtpSenderFactory::make($type);
 
         // 3. Send the code now
         $otpSender->send($code, $toWhom);

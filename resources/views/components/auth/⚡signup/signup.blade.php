@@ -1,5 +1,5 @@
 <div>
-    @if (! $startVerification)
+    @if (! $step)
      <div class="min-h-[calc(100vh-72px)] bg-[#fcf5f3] relative overflow-hidden flex flex-col justify-center pb-20">
         <!-- Background Graphic Placeholder (City Skyline) -->
         <div class="absolute bottom-0 left-0 right-0 h-48 opacity-20 pointer-events-none flex justify-center items-end" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1440 320\'%3E%3Cpath fill=\'%23ee4d2d\' fill-opacity=\'1\' d=\'M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,224C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z\'%3E%3C/path%3E%3C/svg%3E'); background-size: cover; background-position: bottom; background-repeat: no-repeat; filter: drop-shadow(0 -10px 20px rgba(238, 77, 45, 0.5));">
@@ -90,8 +90,9 @@
                 </nav>
             </div>
 
-            <div x-data="{ step: 1 }" class="w-full pb-10">
-                {{-- State 1: Select Verification Method --}}
+            <div class="w-full pb-10">
+                @if ($step === 1)
+                <!-- Select Verification Method -->
                 <div class="max-w-md mx-auto py-10 px-4 sm:px-0">
                     <div class="relative flex items-center justify-center mb-8">
                         <button type="button" class="absolute left-0 text-[#ee4d2d] hover:bg-gray-50 p-1.5 rounded-full transition-colors">
@@ -108,26 +109,16 @@
                     </div>
 
                     <div class="space-y-3">
-                        <button type="button" wire-click="sendCode('viber')" class="w-full flex items-center p-4 border border-gray-200 rounded-sm hover:bg-gray-50 transition-colors">
+                        <button type="button" wire:click="sendCode('email')" class="w-full flex items-center p-4 border border-gray-200 rounded-sm hover:bg-gray-50 transition-colors">
                             <div class="w-8 h-8 rounded-full bg-[#7360f2] flex items-center justify-center mr-4">
                                 <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M19.463 6.945a9.387 9.387 0 0 0-6.732-2.923c-5.21 0-9.45 4.242-9.45 9.452 0 1.942.606 3.824 1.708 5.412l-1.464 4.382 4.49-1.425a9.38 9.38 0 0 0 4.716 1.26c5.21 0 9.45-4.24 9.45-9.45 0-2.525-.983-4.898-2.718-6.708zm-2.072 10.665c-.266.748-1.487 1.41-2.04 1.472-.516.057-1.18.175-3.37-.732-2.695-1.116-4.42-3.86-4.57-4.062-.15-.2-1.092-1.45-1.092-2.766 0-1.314.685-1.96.932-2.228.247-.267.54-.334.72-.334.18 0 .36 0 .515.006.166.007.388-.063.607.464.225.54.766 1.874.835 2.008.068.134.113.29.023.47-.09.18-.135.29-.27.447-.135.158-.286.34-.412.47-.142.146-.29.303-.125.59.165.286.736 1.218 1.583 1.973 1.095.975 2.015 1.275 2.302 1.41.286.134.453.11.62-.08.167-.19.72-.085.885-.105.166-.214.54-.18.756-.1.215.08 1.365.642 1.6.755.235.112.392.167.45.267.058.1.058.577-.208 1.325z" />
                                 </svg>
                             </div>
-                            <span class="text-gray-700">Viber</span>
+                            <span class="text-gray-700">Gmail</span>
                         </button>
 
-                        <button type="button" wire-click="sendCode('viber')" class="w-full flex items-center p-4 border border-gray-200 rounded-sm hover:bg-gray-50 transition-colors">
-                            <div class="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center mr-4">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12.031 21.082h-.006c-1.688 0-3.344-.453-4.797-1.313l-.344-.206-3.563.931.95-3.469-.225-.356A9.614 9.614 0 0 1 2.5 12.025c0-5.325 4.331-9.656 9.656-9.656 2.581 0 5.006 1.006 6.831 2.831s2.831 4.25 2.831 6.831c-.006 5.325-4.338 9.65-9.663 9.65zm0-17.756C7.544 3.325 3.906 6.963 3.906 11.413c0 1.463.381 2.9 1.106 4.163l.169.281-.594 2.169 2.219-.581.275.163c1.225.719 2.625 1.1 4.063 1.1h.006c4.45 0 8.081-3.638 8.081-8.088 0-2.156-.844-4.181-2.369-5.706-1.525-1.525-3.55-2.369-5.706-2.369h-.012z"/>
-                                    <path d="M16.425 14.156c-.225-.113-1.344-.663-1.55-.738-.206-.075-.356-.113-.506.113-.15.225-.581.738-.713.888-.131.15-.263.169-.488.056-1.125-.506-2.206-1.181-3.15-1.956-.563-.481-1.069-1.044-1.463-1.669-.113-.188-.013-.288.1-.4.1-.1.225-.263.338-.394.113-.131.15-.225.225-.375.075-.15.038-.281-.019-.394-.056-.113-.506-1.219-.694-1.669-.181-.438-.363-.381-.5-.388-.131-.006-.281-.006-.431-.006-.15 0-.394.056-.6.281-.206.225-.787.769-.787 1.875 0 1.106.806 2.175.919 2.325.113.15 1.581 2.413 3.831 3.381 1.05.45 1.631.575 2.175.725.544.15 1.038.125 1.425.075.431-.056 1.344-.55 1.531-1.081.188-.531.188-.988.131-1.081-.05-.088-.206-.144-.431-.256z"/>
-                                </svg>
-                            </div>
-                            <span class="text-gray-700">WhatsApp</span>
-                        </button>
-
-                        <button type="button" wire-click="sendCode('viber')" class="w-full flex items-center p-4 border border-gray-200 rounded-sm hover:bg-gray-50 transition-colors">
+                        <button type="button" wire:click="sendCode('sms')" class="w-full flex items-center p-4 border border-gray-200 rounded-sm hover:bg-gray-50 transition-colors">
                             <div class="w-8 h-8 rounded-full bg-[#1877F2] flex items-center justify-center mr-4">
                                 <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd" />
@@ -138,8 +129,9 @@
                     </div>
                 </div>
 
-                {{-- State 2: Enter Verification Code --}}
-                <div x-show="step === 2" style="display: none;" class="max-w-md mx-auto py-10 px-4 sm:px-0">
+                @elseif($step === 2)
+                <!-- Enter Verification Code -->
+                <div class="max-w-md mx-auto py-10 px-4 sm:px-0">
                     <div class="relative flex items-center justify-center mb-8">
                         <button type="button" @click="step = 1" class="absolute left-0 text-[#ee4d2d] hover:bg-gray-50 p-1.5 rounded-full transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -150,30 +142,32 @@
                     </div>
 
                     <div class="text-center mb-10">
-                        <p class="text-gray-600 text-sm mb-1">Your verification code is sent by SMS to</p>
-                        <p class="text-gray-900 font-semibold">(+63) 975 968 4189</p>
+                        <p class="text-gray-600 text-sm mb-1">Your verification code is sent to</p>
+                        <p class="text-gray-900 font-semibold"> {{ $email }}</p>
                     </div>
 
                     <div class="flex justify-center gap-4 mb-10">
-                        <input type="text" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                        <input type="text" wire:model="code.0" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                        <input type="text" wire:model="code.1" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                        <input type="text" wire:model="code.2" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                        <input type="text" wire:model="code.3" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                        <input type="text" wire:model="code.4" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                        <input type="text" wire:model="code.5" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
                     </div>
 
                     <div class="text-center mb-8">
-                        <p class="text-gray-400 text-sm">Please wait 56 seconds to resend.</p>
+                        <p class="text-gray-400 text-sm">Please wait 56 seconds to resend code.</p>
                     </div>
 
-                    <button type="button" @click="step = 3" class="w-full bg-[#f18a70] text-white rounded-sm py-2.5 font-medium uppercase text-sm tracking-wide hover:bg-[#ee4d2d] transition-colors">
+                    <button type="button" wire:click="verifyCode" class="w-full bg-[#f18a70] text-white rounded-sm py-2.5 font-medium uppercase text-sm tracking-wide hover:bg-[#ee4d2d] transition-colors">
                         Next
                     </button>
                 </div>
 
-                {{-- State 3: Is This Your Account? --}}
-                <div x-show="step === 3" style="display: none;" class="max-w-md mx-auto py-10 px-4 sm:px-0">
+                <!-- @else -->
+                <!-- TODO: implement later this will pop up if user has already an account -->
+                <!-- {{-- State 3: Is This Your Account? --}} -->
+                <!-- <div x-show="step === 3" style="display: none;" class="max-w-md mx-auto py-10 px-4 sm:px-0">
                     <div class="relative flex items-center justify-center mb-10">
                         <button type="button" @click="step = 2" class="absolute left-0 text-[#ee4d2d] hover:bg-gray-50 p-1.5 rounded-full transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -207,7 +201,9 @@
                             No, Create A New Account
                         </button>
                     </div>
-                </div>
-            </div>        </div>
+                </div> -->
+                @endif
+            </div>   
+        </div>
     @endif
 </div>

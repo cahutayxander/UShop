@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Factories\OtpSenderFactory;
 use Illuminate\Support\Facades\Cache;
 use Exception;
+use Illuminate\Validation\ValidationException;
 
 class OtpService
 {
@@ -49,7 +50,9 @@ class OtpService
             return;
         }
 
-        throw new Exception("Looks like you already requested an OTP! Please try again in a few minutes.");
+        throw ValidationException::withMessages([
+            'otp' => 'You have requested verification codes too frequently. Please try again later.'
+        ]);
     }
 
     /**
@@ -78,6 +81,7 @@ class OtpService
         $code = rand(100000, 999999);
         $expiration = now()->addMinutes(5);
 
+        \Log::info($code);
         // 1. Save code to Cache for 5 minutes
         Cache::put($this->cacheKey($toWhom), $code, $expiration);
 

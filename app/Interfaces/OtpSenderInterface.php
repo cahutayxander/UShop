@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface OtpSenderInterface
 {
-    public function send($code, $toWhom): void;
+    public function send(string $code, string $toWhom): void;
 }

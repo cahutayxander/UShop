@@ -9,7 +9,7 @@ use App\Services\SmsOTPService;
 
 class OtpSenderFactory
 {
-    public function make(string $via): OtpSenderInterface
+    public static function make(string $via): OtpSenderInterface
     {
         return match ($via) {
             'email' => app(EmailOTPService::class),

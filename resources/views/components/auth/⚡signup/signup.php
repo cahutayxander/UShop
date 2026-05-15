@@ -3,35 +3,43 @@
 use Livewire\Component;
 use Livewire\Attributes\Validate;
 use App\Services\OtpService;
+use App\Interfaces\UserInterface;
+use Livewire\Attributes\On;
 
 new class extends Component
 {
     protected OtpService $otpService;
+    protected UserInterface $userRepository;
 
-    public $step = 0;
+    // public $verificationStep = 0;
+    // public $passwordSetup = false;
+    public $verificationStep = 1;
+    public $passwordSetup = false;
+    public $isUserRegistered = true;
     public $code = [];
     
     // #[Validate('required|email')]
     #[Validate('required')]
     public $email;
 
-    public function boot(OtpService $otpService)
+    public function boot(OtpService $otpService, UserInterface $userRepository)
     {
         $this->otpService = $otpService;
+        $this->userRepository = $userRepository;
     }
 
-    public function submit(): void
+    public function startVerification(): void
     {
         $this->validate();
 
-        $this->step = 1;
+        $this->verificationStep = 1;
     }
 
     public function sendCode(string $type): void
     {
-        $this->step = 2;
+        $this->verificationStep = 2;
 
-        // $this->otpService->process($type, $this->email);
+        $this->otpService->process($type, $this->email);
     }
 
     public function verifyCode()
@@ -42,6 +50,20 @@ new class extends Component
             return;
         }
 
+        $this->passwordSetup = true;
+
         // return redirect()->route('login');
+    }
+
+    #[On('password-set')]
+    public function registerUser(string $password): void
+    {
+        // $user = $this->userRepository->create([
+        //     'email' => $this->email,
+        //     'password' => $password,
+        // ]);
+
+        $this->passwordSetup = false;
+        // $this->isSuccess = true;
     }
 };

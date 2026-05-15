@@ -1,5 +1,5 @@
 <div>
-    @if (! $step)
+    @if (! $verificationStep)
      <div class="min-h-[calc(100vh-72px)] bg-[#fcf5f3] relative overflow-hidden flex flex-col justify-center pb-20">
         <!-- Background Graphic Placeholder (City Skyline) -->
         <div class="absolute bottom-0 left-0 right-0 h-48 opacity-20 pointer-events-none flex justify-center items-end" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1440 320\'%3E%3Cpath fill=\'%23ee4d2d\' fill-opacity=\'1\' d=\'M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,224C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z\'%3E%3C/path%3E%3C/svg%3E'); background-size: cover; background-position: bottom; background-repeat: no-repeat; filter: drop-shadow(0 -10px 20px rgba(238, 77, 45, 0.5));">
@@ -38,29 +38,29 @@
             </div>
 
             <!-- Right Side Form -->
-                <div class="flex justify-end">
-                    <div class="bg-white rounded p-8 shadow-lg w-full max-w-[400px]">
-                        <h3 class="text-xl text-gray-800 mb-6">Sign Up</h3>
+            <div class="flex justify-end">
+                <div class="bg-white rounded p-8 shadow-lg w-full max-w-[400px]">
+                    <h3 class="text-xl text-gray-800 mb-6">Sign Up</h3>
+                    
+                    <form wire:submit="startVerification">
+                        <div class="mb-4">
+                            <input 
+                                type="text" 
+                                wire:model="email" 
+                                placeholder="Email" 
+                                class="w-full border border-gray-300 rounded px-3 py-2.5 focus:outline-none focus:border-[#ee4d2d] transition-colors"
+                            >
+                            @error('email') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror 
+                        </div>
                         
-                        <form wire:submit="submit">
-                            <div class="mb-4">
-                                <input 
-                                    type="text" 
-                                    wire:model="email" 
-                                    placeholder="Email" 
-                                    class="w-full border border-gray-300 rounded px-3 py-2.5 focus:outline-none focus:border-[#ee4d2d] transition-colors"
-                                >
-                                @error('email') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror 
-                            </div>
-                            
-                            <button type="submit" class="w-full bg-[#ee4d2d] text-white rounded py-2.5 hover:bg-[#d73211] transition-colors uppercase text-sm tracking-wide shadow-sm">
-                                Next
-                            </button>
-                        </form>
+                        <button type="startVerification" class="w-full bg-[#ee4d2d] text-white rounded py-2.5 hover:bg-[#d73211] transition-colors uppercase text-sm tracking-wide shadow-sm">
+                            Next
+                        </button>
+                    </form>
 
-                        <livewire:auth.social-media />
-                    </div>
+                    <livewire:auth.social-media />
                 </div>
+            </div>
         </div>
     </div>
     @else
@@ -68,38 +68,77 @@
     <div class="relative flex justify-center px-4 py-8 pb-28 sm:px-6 lg:px-8">
         <div class="w-full max-w-3xl rounded border border-gray-200 bg-white shadow-sm">
             <div class="border-b border-gray-100 px-4 py-8 sm:px-10">
-                <nav class="mx-auto flex max-w-2xl items-start" aria-label="Onboarding progress">
+               <nav class="mx-auto flex max-w-2xl items-start" aria-label="Onboarding progress">
+                    <!-- Step 1 -->
                     <div class="flex flex-1 flex-col items-center">
-                        <span class="size-2.5 shrink-0 rounded-full bg-[#ee4d2d] ring-4 ring-white" aria-current="step"></span>
-                        <span class="mt-3 text-center text-xs font-semibold text-gray-900 sm:text-sm">Verify Email</span>
+                        <div class="size-6 shrink-0 rounded-full @if($verificationStep >= 1) bg-[#81c03a] @endif flex items-center justify-center text-white text-xs font-bold">1</div>
+                        <span class="mt-3 text-center text-xs font-semibold @if($verificationStep >= 1) text-[#81c03a] @else text-gray-400 @endif sm:text-sm">Verify phone no.</span>
                     </div>
-                    <div class="flex min-h-[10px] min-w-6 flex-1 items-center pt-[5px] sm:min-w-8" aria-hidden="true">
-                        <div class="h-px w-full bg-gray-200"></div>
+                    
+                    <div class="flex min-h-[10px] min-w-6 flex-1 items-center pt-[10px] sm:min-w-8" aria-hidden="true">
+                        <div class="h-px w-full bg-[#81c03a]"></div>
                     </div>
+                    
+                    <!-- Step 2 -->
                     <div class="flex flex-col items-center px-1">
-                        <span class="size-2.5 shrink-0 rounded-full bg-gray-300 ring-4 ring-white"></span>
-                        <span class="mt-3 max-w-[9rem] text-center text-xs leading-snug text-gray-400 sm:max-w-none sm:text-sm">Create Password</span>
+                        <div class="size-6 shrink-0 rounded-full @if($passwordSetup) bg-[#81c03a] text-white @else border-2 border-[#81c03a] @endif flex items-center justify-center text-xs font-bold">2</div>
+                        <span class="mt-3 max-w-[9rem] text-center text-xs leading-snug font-semibold @if($passwordSetup) text-[#81c03a] @else text-gray-400 @endif sm:max-w-none sm:text-sm">Create password</span>
                     </div>
-                    <div class="flex min-h-[10px] min-w-6 flex-1 items-center pt-[5px] sm:min-w-8" aria-hidden="true">
-                        <div class="h-px w-full bg-gray-200"></div>
+                    
+                    <div class="flex min-h-[10px] min-w-6 flex-1 items-center pt-[10px] sm:min-w-8" aria-hidden="true">
+                        <div class="h-px w-full bg-[#81c03a]"></div>
                     </div>
+                    
+                    <!-- Step 3 (Done) -->
                     <div class="flex flex-1 flex-col items-center">
-                        <span class="size-2.5 shrink-0 rounded-full bg-gray-300 ring-4 ring-white"></span>
-                        <span class="mt-3 text-center text-xs text-gray-400 sm:text-sm">Done</span>
+                        <div class="size-6 shrink-0 rounded-full @if($isUserRegistered) bg-[#81c03a] @else border-2 border-[#81c03a] @endif flex items-center justify-center">
+                            <svg class="w-4 h-4 @if($isUserRegistered) text-white @else text-[#81c03a] @endif" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <span class="mt-3 text-center text-xs font-semibold @if($isUserRegistered) text-[#81c03a] @else text-gray-400 @endif sm:text-sm">Done</span>
                     </div>
                 </nav>
             </div>
 
             <div class="w-full pb-10">
-                @if ($step === 1)
+                @if ($isUserRegistered)
+                    <div class="max-w-md mx-auto py-10 px-4 sm:px-0 text-center">
+                        <h2 class="text-xl text-gray-800 mb-6">Sign up successful!</h2>
+                        
+                        <div class="flex justify-center mb-6">
+                            <div class="w-16 h-16 rounded-full border-[3px] border-[#81c03a] flex items-center justify-center">
+                                <svg class="w-8 h-8 text-[#81c03a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-700 text-sm mb-4">
+                            You have successfully created a UShop<br>account with email of <span class="text-[#ee4d2d]">{{ $email }}</span>
+                        </p>
+
+                        <!-- Alpine.js 7-second countdown -->
+                        <!-- <div x-data="{ countdown: 7 }" x-init="setInterval(() => { if (countdown > 0) countdown--; }, 1000)" class="text-gray-700 text-sm mb-10">
+                            You will be redirected to Seller Centre in <span x-text="countdown"></span> seconds.
+                        </div> -->
+
+                        <button type="button" class="w-full bg-[#ee4d2d] hover:bg-[#d73211] text-white rounded-sm py-2.5 font-medium transition-colors">
+                            Go to Seller Centre
+                        </button>
+                    </div>
+                @elseif ($passwordSetup)
+                    <!-- Step 3: Set Password -->
+                    <livewire:auth.create-password />
+                @elseif ($verificationStep === 1)
                 <!-- Select Verification Method -->
                 <div class="max-w-md mx-auto py-10 px-4 sm:px-0">
                     <div class="relative flex items-center justify-center mb-8">
-                        <button type="button" class="absolute left-0 text-[#ee4d2d] hover:bg-gray-50 p-1.5 rounded-full transition-colors">
+                        <!-- <button type="button" class="absolute left-0 text-[#ee4d2d] hover:bg-gray-50 p-1.5 rounded-full transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
-                        </button>
+                        </button> -->
                         <h2 class="text-xl text-gray-800">Select Verification Method</h2>
                     </div>
 
@@ -129,16 +168,22 @@
                     </div>
                 </div>
 
-                @elseif($step === 2)
+                @elseif($verificationStep === 2)
                 <!-- Enter Verification Code -->
                 <div class="max-w-md mx-auto py-10 px-4 sm:px-0">
                     <div class="relative flex items-center justify-center mb-8">
-                        <button type="button" @click="step = 1" class="absolute left-0 text-[#ee4d2d] hover:bg-gray-50 p-1.5 rounded-full transition-colors">
+                        <!-- <button type="button" @click="$wire.verificationStep = 1" class="absolute left-0 text-[#ee4d2d] hover:bg-gray-50 p-1.5 rounded-full transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
-                        </button>
+                        </button> -->
                         <h2 class="text-xl text-gray-800">Enter Verification Code</h2>
+                    </div>
+
+                    <div>
+                        @error('otp')
+                            <p class="text-red-500 text-sm">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="text-center mb-10">
@@ -155,14 +200,18 @@
                         <input type="text" wire:model="code.5" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
                     </div>
 
-                    <div class="text-center mb-8">
-                        <p class="text-gray-400 text-sm">Please wait 56 seconds to resend code.</p>
+                    <div x-data="{ timer: 60 }" x-init="setInterval(() => { if (timer > 0) timer--; }, 1000)" class="text-center mb-8">
+                        <p x-show="timer > 0" class="text-gray-400 text-sm">Please wait <span x-text="timer"></span> seconds to resend code.</p>
+                        <button x-cloak x-show="timer === 0" type="button" wire:click="$refresh" class="text-[#ee4d2d] text-sm font-medium hover:underline transition-colors">
+                            Resend code
+                        </button>
                     </div>
 
                     <button type="button" wire:click="verifyCode" class="w-full bg-[#f18a70] text-white rounded-sm py-2.5 font-medium uppercase text-sm tracking-wide hover:bg-[#ee4d2d] transition-colors">
                         Next
                     </button>
                 </div>
+
 
                 <!-- @else -->
                 <!-- TODO: implement later this will pop up if user has already an account -->

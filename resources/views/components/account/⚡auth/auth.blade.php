@@ -7,7 +7,7 @@
                 A
             </div>
             <span class="text-sm font-medium text-gray-700 hover:text-gray-900 transition">
-                alexanderalancahutay475
+                {{ $this->user->email }}
             </span>
             <svg viewBox="0 0 24 24" fill="none" class="h-4 w-4 text-gray-500 transition-transform duration-200" :class="open ? 'rotate-180' : ''" stroke="currentColor" stroke-width="2">
                 <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -27,7 +27,7 @@
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">Seller Centre</a>
             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">Settings</a>
             <div class="border-t border-gray-100 my-1"></div>
-            <button type="button" class="w-full text-left block px-4 py-2 text-sm text-[#ee4d2d] hover:bg-red-50 transition-colors font-medium">
+            <button type="button" wire:click="logout" class="w-full text-left block px-4 py-2 text-sm text-[#ee4d2d] hover:bg-red-50 transition-colors font-medium">
                 Logout
             </button>
         </div>

@@ -7,11 +7,13 @@ use App\Interfaces\UserInterface;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use App\Services\RegisterUserService;
+use App\Services\AuthenticationService;
 
 new class extends Component
 {
     protected OtpService $otpService;
     protected RegisterUserService $registerUserService;
+    protected AuthenticationService $authenticationService;
 
     public int $verificationStep = 0;
     public bool $passwordSetup = false;
@@ -31,9 +33,11 @@ new class extends Component
     public function boot(
         OtpService $otpService, 
         RegisterUserService $registerUserService,
+        AuthenticationService $authenticationService,
     ) {
         $this->otpService = $otpService;
         $this->registerUserService = $registerUserService;
+        $this->authenticationService = $authenticationService;
     }
 
     #[Computed]
@@ -84,6 +88,8 @@ new class extends Component
             'email' => $this->email,
             'password' => $password,
         ]);
+
+        $this->authenticationService->login($user->email, $password);
 
         $this->passwordSetup = false;
         $this->isUserRegistered = true;

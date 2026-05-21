@@ -20,10 +20,12 @@ class RegisterUserService
         return DB::transaction(function () use ($data) {
             $role = $this->roleRepository->findBySlug(Role::SELLER);
 
-            return $this->userRepository->create([
+            $user = $this->userRepository->create([
                 ...$data,
                 'role_id' => $role->id,
             ]);
+
+            return $user;
         });
     }
 }

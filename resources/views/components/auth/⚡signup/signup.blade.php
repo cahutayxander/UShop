@@ -1,78 +1,79 @@
 <div>
     @if (! $verificationStep)
-     <div class="min-h-[calc(100vh-72px)] bg-[#fcf5f3] relative overflow-hidden flex flex-col justify-center pb-20">
-        <!-- Background Graphic Placeholder (City Skyline) -->
-        <div class="absolute bottom-0 left-0 right-0 h-48 opacity-20 pointer-events-none flex justify-center items-end" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1440 320\'%3E%3Cpath fill=\'%23ee4d2d\' fill-opacity=\'1\' d=\'M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,224C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z\'%3E%3C/path%3E%3C/svg%3E'); background-size: cover; background-position: bottom; background-repeat: no-repeat; filter: drop-shadow(0 -10px 20px rgba(238, 77, 45, 0.5));">
-            <!-- We could put a more complex skyline SVG here, but a stylized wave works as a stand-in for the vibe -->
-        </div>
-
-        <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center relative z-10 mt-10">
-            
-            <!-- Left Side Text -->
-            <div class="hidden md:block">
-                <h2 class="text-[#ee4d2d] text-2xl font-medium mb-1">UShop Marketplace</h2>
-                <h1 class="text-[#ee4d2d] text-5xl font-bold leading-tight mb-8">
-                    Grow your business and<br>Sell more
-                </h1>
-                
-                <ul class="space-y-6">
-                    <li class="flex items-start">
-                        <div class="text-[#ee4d2d] mr-4 mt-1">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                        </div>
-                        <p class="text-gray-700 text-lg">Leading e-commerce platform in Southeast Asia<br>and Taiwan</p>
-                    </li>
-                    <li class="flex items-start">
-                        <div class="text-[#ee4d2d] mr-4 mt-1">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                        </div>
-                        <p class="text-gray-700 text-lg">Growing global presence</p>
-                    </li>
-                    <li class="flex items-start">
-                        <div class="text-[#ee4d2d] mr-4 mt-1">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.514"></path></svg>
-                        </div>
-                        <p class="text-gray-700 text-lg">#1 shopping app for both iOS and Android in the<br>Philippines</p>
-                    </li>
-                </ul>
+        <div class="min-h-[calc(100vh-72px)] bg-[#fcf5f3] relative overflow-hidden flex flex-col justify-center pb-20">
+            <!-- Background Graphic Placeholder (City Skyline) -->
+            <div class="absolute bottom-0 left-0 right-0 h-48 opacity-20 pointer-events-none flex justify-center items-end" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 1440 320\'%3E%3Cpath fill=\'%23ee4d2d\' fill-opacity=\'1\' d=\'M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,224C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z\'%3E%3C/path%3E%3C/svg%3E'); background-size: cover; background-position: bottom; background-repeat: no-repeat; filter: drop-shadow(0 -10px 20px rgba(238, 77, 45, 0.5));">
+                <!-- We could put a more complex skyline SVG here, but a stylized wave works as a stand-in for the vibe -->
             </div>
 
-            <!-- Right Side Form -->
-            <div class="flex justify-end">
-                <div class="bg-white rounded p-8 shadow-lg w-full max-w-[400px]">
-                    <h3 class="text-xl text-gray-800 mb-6">Sign Up</h3>
+            <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center relative z-10 mt-10">
+                
+                <!-- Left Side Text -->
+                <div class="hidden md:block">
+                    <h2 class="text-[#ee4d2d] text-2xl font-medium mb-1">UShop Marketplace</h2>
+                    <h1 class="text-[#ee4d2d] text-5xl font-bold leading-tight mb-8">
+                        Grow your business and<br>Sell more
+                    </h1>
                     
-                    <form wire:submit="startVerification">
-                        <div class="mb-4">
-                            <input 
-                                type="text" 
-                                wire:model="email" 
-                                placeholder="Email" 
-                                class="w-full border border-gray-300 rounded px-3 py-2.5 focus:outline-none focus:border-[#ee4d2d] transition-colors"
-                            >
-                            @error('email') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror 
-                        </div>
-                        
-                        <button type="startVerification" class="w-full bg-[#ee4d2d] text-white rounded py-2.5 hover:bg-[#d73211] transition-colors uppercase text-sm tracking-wide shadow-sm">
-                            Next
-                        </button>
-                    </form>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="text-[#ee4d2d] mr-4 mt-1">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                            </div>
+                            <p class="text-gray-700 text-lg">Leading e-commerce platform in Southeast Asia<br>and Taiwan</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-[#ee4d2d] mr-4 mt-1">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                            </div>
+                            <p class="text-gray-700 text-lg">Growing global presence</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-[#ee4d2d] mr-4 mt-1">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.514"></path></svg>
+                            </div>
+                            <p class="text-gray-700 text-lg">#1 shopping app for both iOS and Android in the<br>Philippines</p>
+                        </li>
+                    </ul>
+                </div>
 
-                    <livewire:auth.social-media />
+
+                <!-- Right Side Form -->
+                <div class="flex justify-end">
+                    <div class="bg-white rounded p-8 shadow-lg w-full max-w-[400px]">
+                        <h3 class="text-xl text-gray-800 mb-6">Sign Up</h3>
+                        
+                        <form wire:submit="startVerification">
+                            <div class="mb-4">
+                                <input 
+                                    type="text" 
+                                    wire:model="email" 
+                                    placeholder="Email" 
+                                    class="w-full border border-gray-300 rounded px-3 py-2.5 focus:outline-none focus:border-[#ee4d2d] transition-colors"
+                                >
+                                @error('email') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror 
+                            </div>
+                            
+                            <button type="startVerification" class="w-full bg-[#ee4d2d] text-white rounded py-2.5 hover:bg-[#d73211] transition-colors uppercase text-sm tracking-wide shadow-sm">
+                                Next
+                            </button>
+                        </form>
+
+                        <livewire:auth.social-media />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @else
     {{-- Stepper --}}
-    <div class="relative flex justify-center px-4 py-8 pb-28 sm:px-6 lg:px-8">
+        <div class="relative flex justify-center px-4 py-8 pb-28 sm:px-6 lg:px-8">
         <div class="w-full max-w-3xl rounded border border-gray-200 bg-white shadow-sm">
             <div class="border-b border-gray-100 px-4 py-8 sm:px-10">
                <nav class="mx-auto flex max-w-2xl items-start" aria-label="Onboarding progress">
                     <!-- Step 1 -->
                     <div class="flex flex-1 flex-col items-center">
                         <div class="size-6 shrink-0 rounded-full @if($verificationStep >= 1) bg-[#81c03a] @endif flex items-center justify-center text-white text-xs font-bold">1</div>
-                        <span class="mt-3 text-center text-xs font-semibold @if($verificationStep >= 1) text-[#81c03a] @else text-gray-400 @endif sm:text-sm">Verify phone no.</span>
+                        <span class="mt-3 text-center text-xs font-semibold @if($verificationStep >= 1) text-[#81c03a] @else text-gray-400 @endif sm:text-sm">Verify email</span>
                     </div>
                     
                     <div class="flex min-h-[10px] min-w-6 flex-1 items-center pt-[10px] sm:min-w-8" aria-hidden="true">
@@ -81,8 +82,8 @@
                     
                     <!-- Step 2 -->
                     <div class="flex flex-col items-center px-1">
-                        <div class="size-6 shrink-0 rounded-full @if($passwordSetup) bg-[#81c03a] text-white @else border-2 border-[#81c03a] @endif flex items-center justify-center text-xs font-bold">2</div>
-                        <span class="mt-3 max-w-[9rem] text-center text-xs leading-snug font-semibold @if($passwordSetup) text-[#81c03a] @else text-gray-400 @endif sm:max-w-none sm:text-sm">Create password</span>
+                        <div class="size-6 shrink-0 rounded-full @if($this->isRegistrationDone) bg-[#81c03a] text-white @else border-2 border-[#81c03a] @endif flex items-center justify-center text-xs font-bold">2</div>
+                        <span class="mt-3 max-w-[9rem] text-center text-xs leading-snug font-semibold @if($this->isRegistrationDone) text-[#81c03a] @else text-gray-400 @endif sm:max-w-none sm:text-sm">Create password</span>
                     </div>
                     
                     <div class="flex min-h-[10px] min-w-6 flex-1 items-center pt-[10px] sm:min-w-8" aria-hidden="true">
@@ -123,9 +124,11 @@
                             You will be redirected to Seller Centre in <span x-text="countdown"></span> seconds.
                         </div> -->
 
-                        <button type="button" class="w-full bg-[#ee4d2d] hover:bg-[#d73211] text-white rounded-sm py-2.5 font-medium transition-colors">
-                            Go to Seller Centre
-                        </button>
+                        <a href="/seller/welcome"> 
+                            <button type="button" class="w-full bg-[#ee4d2d] hover:bg-[#d73211] text-white rounded-sm py-2.5 font-medium transition-colors">
+                                Go to Seller Centre
+                            </button>
+                        </a>
                     </div>
                 @elseif ($passwordSetup)
                     <!-- Step 3: Set Password -->
@@ -180,36 +183,38 @@
                         <h2 class="text-xl text-gray-800">Enter Verification Code</h2>
                     </div>
 
-                    <div>
-                        @error('otp')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    @if ($errors->has('multiple_otp_request_prevention'))
+                        <p class="text-red-500 text-sm">{{ $errors->first('multiple_otp_request_prevention') }} </p>
+                    @else
+                        <div class="text-center mb-10">
+                            <p class="text-gray-600 text-sm mb-1">Your verification code is sent to</p>
+                            <p class="text-gray-900 font-semibold"> {{ $email }}</p>
+                        </div>
 
-                    <div class="text-center mb-10">
-                        <p class="text-gray-600 text-sm mb-1">Your verification code is sent to</p>
-                        <p class="text-gray-900 font-semibold"> {{ $email }}</p>
-                    </div>
+                        <div class="flex justify-center gap-4 mb-10">
+                            <input type="text" wire:model="code.0" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                            <input type="text" wire:model="code.1" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                            <input type="text" wire:model="code.2" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                            <input type="text" wire:model="code.3" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                            <input type="text" wire:model="code.4" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                            <input type="text" wire:model="code.5" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
+                        </div>
 
-                    <div class="flex justify-center gap-4 mb-10">
-                        <input type="text" wire:model="code.0" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" wire:model="code.1" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" wire:model="code.2" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" wire:model="code.3" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" wire:model="code.4" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                        <input type="text" wire:model="code.5" maxlength="1" class="w-10 h-10 border-b border-gray-300 text-center text-xl focus:border-[#ee4d2d] focus:outline-none transition-colors" />
-                    </div>
+                        @if (session()->has('otp_error'))
+                            <div class="text-red-500 text-sm text-center">{{ session('otp_error') }}</div>
+                        @endif
 
-                    <div x-data="{ timer: 60 }" x-init="setInterval(() => { if (timer > 0) timer--; }, 1000)" class="text-center mb-8">
-                        <p x-show="timer > 0" class="text-gray-400 text-sm">Please wait <span x-text="timer"></span> seconds to resend code.</p>
-                        <button x-cloak x-show="timer === 0" type="button" wire:click="$refresh" class="text-[#ee4d2d] text-sm font-medium hover:underline transition-colors">
-                            Resend code
+                        <div x-data="{ timer: 60 }" x-init="setInterval(() => { if (timer > 0) timer--; }, 1000)" class="text-center mb-8">
+                            <p x-show="timer > 0" class="text-gray-400 text-sm">Please wait <span x-text="timer"></span> seconds to resend code.</p>
+                            <button x-cloak x-show="timer === 0" type="button" wire:click="$refresh" class="text-[#ee4d2d] text-sm font-medium hover:underline transition-colors">
+                                Resend code
+                            </button>
+                        </div>
+
+                        <button type="button" wire:click="verifyCode" class="w-full bg-[#f18a70] text-white rounded-sm py-2.5 font-medium uppercase text-sm tracking-wide hover:bg-[#ee4d2d] transition-colors">
+                            Next
                         </button>
-                    </div>
-
-                    <button type="button" wire:click="verifyCode" class="w-full bg-[#f18a70] text-white rounded-sm py-2.5 font-medium uppercase text-sm tracking-wide hover:bg-[#ee4d2d] transition-colors">
-                        Next
-                    </button>
+                    @endif
                 </div>
 
 

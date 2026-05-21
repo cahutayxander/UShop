@@ -5,27 +5,45 @@ use Livewire\Attributes\Validate;
 use App\Services\OtpService;
 use App\Interfaces\UserInterface;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Computed;
+use App\Services\RegisterUserService;
 
 new class extends Component
 {
     protected OtpService $otpService;
-    protected UserInterface $userRepository;
+    protected RegisterUserService $registerUserService;
 
-    // public $verificationStep = 0;
-    // public $passwordSetup = false;
-    public $verificationStep = 1;
+    public $verificationStep = 0;
     public $passwordSetup = false;
-    public $isUserRegistered = true;
+    public $isUserRegistered = false;
+
+    // public $verificationStep = 1;
+    // public $passwordSetup = true;
+    // public $isUserRegistered = false;
+    
     public $code = [];
     
     // #[Validate('required|email')]
     #[Validate('required')]
     public $email;
 
-    public function boot(OtpService $otpService, UserInterface $userRepository)
-    {
+    public function boot(
+        OtpService $otpService, 
+        RegisterUserService $registerUserService,
+    ) {
         $this->otpService = $otpService;
-        $this->userRepository = $userRepository;
+        $this->registerUserService = $registerUserService;
+    }
+
+    #[Computed]
+    public function isRegistrationDone()
+    {
+        return $this->passwordSetup || $this->isUserRegistered;
+    }
+
+    public function hasRequestedOTP()
+    {
+
     }
 
     public function startVerification(): void
@@ -45,25 +63,22 @@ new class extends Component
     public function verifyCode()
     {
         if (! $this->otpService->verifyCode($this->email, implode('', $this->code))) {
-            // session()->flash('error', 'Invalid code.');
-
+            session()->flash('otp_error', 'Code provided is incorrect!');
             return;
         }
 
         $this->passwordSetup = true;
-
-        // return redirect()->route('login');
     }
 
     #[On('password-set')]
     public function registerUser(string $password): void
     {
-        // $user = $this->userRepository->create([
-        //     'email' => $this->email,
-        //     'password' => $password,
-        // ]);
+        $user = $this->registerUserService->createSeller([
+            'email' => $this->email,
+            'password' => $password,
+        ]);
 
         $this->passwordSetup = false;
-        // $this->isSuccess = true;
+        $this->isUserRegistered = true;
     }
 };

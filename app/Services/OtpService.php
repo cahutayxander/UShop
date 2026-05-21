@@ -51,7 +51,7 @@ class OtpService
         }
 
         throw ValidationException::withMessages([
-            'otp' => 'You have requested verification codes too frequently. Please try again later.'
+            'multiple_otp_request_prevention' => 'You have requested verification codes too frequently. Please try again later.'
         ]);
     }
 
@@ -103,7 +103,7 @@ class OtpService
     {
         $codeInCache = Cache::get($this->cacheKey($toWhom));
 
-        if (! $codeInCache || $codeFromUser !== $codeInCache) {
+        if (! $codeInCache || (string) $codeFromUser !== (string) $codeInCache) {
             return false;
         }
 

@@ -18,6 +18,7 @@ Route::prefix('seller')->group(function() {
     Route::livewire('/signup', addPrefix('auth.seller-signup'));
     Route::livewire('/login', addPrefix('auth.seller-login'));
 
+    Route::livewire('/welcome', addPrefix('seller.welcome'));
     Route::livewire('/onboarding', addPrefix('seller.onboarding'));
 });
 

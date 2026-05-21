@@ -22,10 +22,6 @@ new class extends Component
     {
         $this->validate();
 
-        // $this->userRepository->update([
-        //     'password' => $this->password,
-        // ]);
-
         $this->dispatch('password-set', $this->password);
 
         $this->password = '';

@@ -8,6 +8,9 @@ use App\Models\ProductSeller;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Role;
+use App\Enums\Role as RoleEnum;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,7 +21,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory()->count(10)->create();
+        // Seed standard roles
+        foreach ([
+            RoleEnum::BUYER,
+            RoleEnum::SELLER,
+            RoleEnum::ADMIN
+        ] as $roleName) {
+            Role::firstOrCreate(
+                ['name' => $roleName],
+                ['slug' => Str::slug($roleName)]
+            );
+        }
+
+        $buyers = User::factory()->buyer()->count(5)->create();
+
+        $admin = User::factory()->admin()->count(5)->create();
 
         $sellers = User::factory()->seller()->count(5)->create();
 
@@ -38,7 +55,7 @@ class DatabaseSeeder extends Seeder
             ]);
         });
 
-        $categories->each(function (Category $category) use ($productSellers, $users): void {
+        $categories->each(function (Category $category) use ($productSellers, $buyers): void {
             $products = Product::factory()
                 ->count(10)
                 ->state(fn (): array => [
@@ -54,7 +71,7 @@ class DatabaseSeeder extends Seeder
                 if ($numReviews > 0) {
                     \App\Models\ProductReview::factory()->count($numReviews)->create([
                         'product_id' => $product->id,
-                        'user_id' => $users->random()->id,
+                        'user_id' => $buyers->random()->id,
                     ]);
                 }
             }

@@ -27,7 +27,10 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'role_id' => Role::factory(),
+            'role_id' => fn () => Role::firstOrCreate(
+                ['name' => RoleEnum::BUYER],
+                ['slug' => Str::slug(RoleEnum::BUYER)]
+            )->id,
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'phone_number' => '09' . fake()->numerify('##########'),
@@ -49,22 +52,31 @@ class UserFactory extends Factory
 
     public function buyer()
     {
-        return $this->state([
-            'role_id' => Role::where('name', RoleEnum::BUYER)->first()->id,
+        return $this->state(fn (array $attributes) => [
+            'role_id' => Role::firstOrCreate(
+                ['name' => RoleEnum::BUYER],
+                ['slug' => Str::slug(RoleEnum::BUYER)]
+            )->id,
         ]);
     }
 
     public function seller()
     {
-        return $this->state([
-            'role_id' => Role::where('name', RoleEnum::BUYER)->first()->id,
+        return $this->state(fn (array $attributes) => [
+            'role_id' => Role::firstOrCreate(
+                ['name' => RoleEnum::SELLER],
+                ['slug' => Str::slug(RoleEnum::SELLER)]
+            )->id,
         ]);
     }
 
     public function admin()
     {
-        return $this->state([
-            'role_id' => Role::where('name', RoleEnum::ADMIN)->first()->id,
+        return $this->state(fn (array $attributes) => [
+            'role_id' => Role::firstOrCreate(
+                ['name' => RoleEnum::ADMIN],
+                ['slug' => Str::slug(RoleEnum::ADMIN)]
+            )->id,
         ]);
     }
 }

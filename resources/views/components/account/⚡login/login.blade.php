@@ -27,7 +27,7 @@
                 </button>
             </form>
 
-            <livewire:auth.social-media />
+            <livewire:account.social-media />
         </div>
     </div>
 </div>

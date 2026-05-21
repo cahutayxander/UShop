@@ -13,9 +13,10 @@ new class extends Component
     protected OtpService $otpService;
     protected RegisterUserService $registerUserService;
 
-    public $verificationStep = 0;
-    public $passwordSetup = false;
-    public $isUserRegistered = false;
+    public int $verificationStep = 0;
+    public bool $passwordSetup = false;
+    public bool $isUserRegistered = false;
+    public string $otpType = 'email';
 
     // public $verificationStep = 1;
     // public $passwordSetup = true;
@@ -53,11 +54,17 @@ new class extends Component
         $this->verificationStep = 1;
     }
 
-    public function sendCode(string $type): void
+    public function resendCode(): void
     {
+        $this->sendCode($this->otpType);
+    }
+
+    public function sendCode(string $otpType): void
+    {
+        $this->otpType = $otpType;
         $this->verificationStep = 2;
 
-        $this->otpService->process($type, $this->email);
+        $this->otpService->process($otpType, $this->email);
     }
 
     public function verifyCode()

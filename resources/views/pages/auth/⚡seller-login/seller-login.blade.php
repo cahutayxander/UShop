@@ -38,7 +38,7 @@
             </div>
 
             <!-- Right Side Form -->
-            <livewire:auth.login />
+            <livewire:account.login />
         </div>
     </div>
 </div>

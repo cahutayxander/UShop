@@ -3,7 +3,7 @@
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
-new #[Layout('layouts.auth', ['action' => 'Be A Seller'])] class extends Component
+new #[Layout('layouts.account', ['action' => 'Be A Seller'])] class extends Component
 {
     public $phoneNumber;
 

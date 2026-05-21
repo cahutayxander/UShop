@@ -1,3 +1,3 @@
 <div>
-    <livewire:auth.signup />
+    <livewire:account.signup />
 </div>

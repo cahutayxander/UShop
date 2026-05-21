@@ -59,7 +59,7 @@
                             </button>
                         </form>
 
-                        <livewire:auth.social-media />
+                        <livewire:account.social-media />
                     </div>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                     </div>
                 @elseif ($passwordSetup)
                     <!-- Step 3: Set Password -->
-                    <livewire:auth.create-password />
+                    <livewire:account.create-password />
                 @elseif ($verificationStep === 1)
                 <!-- Select Verification Method -->
                 <div class="max-w-md mx-auto py-10 px-4 sm:px-0">
@@ -206,7 +206,7 @@
 
                         <div x-data="{ timer: 60 }" x-init="setInterval(() => { if (timer > 0) timer--; }, 1000)" class="text-center mb-8">
                             <p x-show="timer > 0" class="text-gray-400 text-sm">Please wait <span x-text="timer"></span> seconds to resend code.</p>
-                            <button x-cloak x-show="timer === 0" type="button" wire:click="$refresh" class="text-[#ee4d2d] text-sm font-medium hover:underline transition-colors">
+                            <button x-cloak x-show="timer === 0" type="button" wire:click="resendCode" class="text-[#ee4d2d] text-sm font-medium hover:underline transition-colors">
                                 Resend code
                             </button>
                         </div>

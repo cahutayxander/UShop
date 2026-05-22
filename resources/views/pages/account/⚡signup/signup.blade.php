@@ -9,7 +9,7 @@
             <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center relative z-10 mt-10">
                 
                 <!-- Left Side Text -->
-                @if ($isSellerRoute)
+                @if ($isForSeller)
                     <livewire:account.seller.signup-background />
                 @else
                     <livewire:account.buyer.signup-background />
@@ -102,9 +102,9 @@
                                 You will be redirected to Seller Centre in <span x-text="countdown"></span> seconds.
                             </div> -->
 
-                            <a href="/seller/welcome"> 
+                            <a href="{{ $isForSeller ? '/seller/welcome' : '/' }}"> 
                                 <button type="button" class="w-full bg-[#ee4d2d] hover:bg-[#d73211] text-white rounded-sm py-2.5 font-medium transition-colors">
-                                    Go to Seller Centre
+                                    Go {{ $isForSeller ? 'to Seller Centre' : 'back to UShop' }}
                                 </button>
                             </a>
                         </div>

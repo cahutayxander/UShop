@@ -16,7 +16,7 @@ new #[Layout('layouts.account', ['action' => 'Sign Up'])] class extends Componen
     protected RegisterUserService $registerUserService;
     protected AuthenticationService $authenticationService;
 
-    public bool $isSellerRoute = false;
+    public bool $isForSeller = false;
     public int $verificationStep = 0;
     public bool $passwordSetup = false;
     public bool $isUserRegistered = false;
@@ -44,7 +44,7 @@ new #[Layout('layouts.account', ['action' => 'Sign Up'])] class extends Componen
 
     public function mount()
     {
-        $this->isSellerRoute = request()->is('seller/signup');
+        $this->isForSeller = request()->is('seller/signup');
     }
 
     #[Computed]
@@ -91,10 +91,8 @@ new #[Layout('layouts.account', ['action' => 'Sign Up'])] class extends Componen
     #[On('password-set')]
     public function registerUser(string $password): void
     {
-        $user = $this->registerUserService->createSeller([
-            'email' => $this->email,
-            'password' => $password,
-        ]);
+        $user = ($this->isForSeller ? $this->registerUserService->seller() : $this->registerUserService->buyer())
+                ->create(['email' => $this->email, 'password' => $password]);
 
         $this->authenticationService->login($user->email, $password);
 

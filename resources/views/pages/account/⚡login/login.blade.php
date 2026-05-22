@@ -9,7 +9,7 @@
             <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center relative z-10 mt-10">
                 
                 <!-- Left Side Text -->
-                @if ($isSellerRoute)
+                @if ($isForSeller)
                     <livewire:account.seller.login-background />
                 @else
                     <livewire:account.buyer.signup-background />
@@ -19,20 +19,30 @@
                 <!-- Right Side Form -->
                 <div class="flex justify-end">
                     <div class="bg-white rounded p-8 shadow-lg w-full max-w-[400px]">
-                        <h3 class="text-xl text-gray-800 mb-6">Sign Up</h3>
+                        <h3 class="text-xl text-gray-800 mb-6">Login</h3>
                         
-                        <form wire:submit="startVerification">
+                        <form wire:submit="login">
                             <div class="mb-4">
                                 <input 
                                     type="text" 
-                                    wire:model="email" 
-                                    placeholder="Email" 
+                                    wire:model="username" 
+                                    placeholder="Username" 
                                     class="w-full border border-gray-300 rounded px-3 py-2.5 focus:outline-none focus:border-[#ee4d2d] transition-colors"
                                 >
-                                @error('email') <span class="text-red-500 text-sm block mt-1">{{ $message }}</span> @enderror 
+                            </div>
+
+                            <div class="mb-4">
+                                <input 
+                                    type="password" 
+                                    wire:model="password" 
+                                    placeholder="Password" 
+                                    class="w-full border border-gray-300 rounded px-3 py-2.5 focus:outline-none focus:border-[#ee4d2d] transition-colors"
+                                >
                             </div>
                             
-                            <button type="startVerification" class="w-full bg-[#ee4d2d] text-white rounded py-2.5 hover:bg-[#d73211] transition-colors uppercase text-sm tracking-wide shadow-sm">
+                            <button 
+                                type="submit"
+                                class="w-full bg-[#ee4d2d] text-white rounded py-2.5 hover:bg-[#d73211] transition-colors uppercase text-sm tracking-wide shadow-sm">
                                 Next
                             </button>
                         </form>

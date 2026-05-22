@@ -10,15 +10,31 @@ use App\Models\User;
 
 class RegisterUserService 
 {
+    private string $roleType;
+
     public function __construct(
         private UserInterface $userRepository,
         private RoleInterface $roleRepository,
     ) {}
 
-    public function createSeller(array $data): User
+    public function buyer(): self
+    {
+        $this->roleType = Role::BUYER;
+
+        return $this;
+    }
+
+    public function seller(): self
+    {
+        $this->roleType = Role::SELLER;
+
+        return $this;
+    }
+
+    public function create(array $data): User
     {
         return DB::transaction(function () use ($data) {
-            $role = $this->roleRepository->findBySlug(Role::SELLER);
+            $role = $this->roleRepository->findBySlug($this->roleType);
 
             $user = $this->userRepository->create([
                 ...$data,

@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use App\Services\OtpService;
 use App\Interfaces\UserInterface;
@@ -9,12 +10,13 @@ use Livewire\Attributes\Computed;
 use App\Services\RegisterUserService;
 use App\Services\AuthenticationService;
 
-new class extends Component
+new #[Layout('layouts.account', ['action' => 'Sign Up'])] class extends Component
 {
     protected OtpService $otpService;
     protected RegisterUserService $registerUserService;
     protected AuthenticationService $authenticationService;
 
+    public bool $isSellerRoute = false;
     public int $verificationStep = 0;
     public bool $passwordSetup = false;
     public bool $isUserRegistered = false;
@@ -38,6 +40,11 @@ new class extends Component
         $this->otpService = $otpService;
         $this->registerUserService = $registerUserService;
         $this->authenticationService = $authenticationService;
+    }
+
+    public function mount()
+    {
+        $this->isSellerRoute = request()->is('seller/signup');
     }
 
     #[Computed]

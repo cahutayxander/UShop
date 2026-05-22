@@ -1,12 +1,21 @@
 <?php
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
 use App\Services\AuthenticationService;
 
-new class extends Component
+new #[Layout('layouts.account', ['action' => 'Login'])] class extends Component
 {
+    public bool $isSellerRoute = false;
     public $username;
     public $password;
+
+    public function mount()
+    {
+        $this->isSellerRoute = request()->is('seller/login');
+    }
+
+    // TODO: for method render, conditional action text seller center for seller then login for buyer
 
     protected AuthenticationService $authenticationService;
 

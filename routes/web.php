@@ -15,14 +15,16 @@ Route::prefix('category')->group(function() {
 });
 
 Route::prefix('seller')->group(function() {
-    Route::livewire('/signup', addPrefix('account.seller-signup'));
-    Route::livewire('/login', addPrefix('account.seller-login'));
+    // Route::livewire('/signup', addPrefix('account.signup'))->name('seller.signup');
+    Route::livewire('/signup', addPrefix('account.signup'));
+    Route::livewire('/login', addPrefix('account.login'));
 
     Route::livewire('/welcome', addPrefix('seller.welcome'));
     Route::livewire('/onboarding', addPrefix('seller.onboarding'));
 });
 
 Route::prefix('buyer')->group(function() {
-    Route::livewire('/signup', addPrefix('account.buyer-signup'));
-    Route::livewire('/login', addPrefix('account.buyer-login'));
+    // Route::livewire('/signup', addPrefix('account.buyer-signup'));
+    Route::livewire('/signup', addPrefix('account.signup'));
+    Route::livewire('/login', addPrefix('account.login'));
 });

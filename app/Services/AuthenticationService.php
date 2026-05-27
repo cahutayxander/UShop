@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticationService 
 {
@@ -15,7 +16,9 @@ class AuthenticationService
             'email' => $email,
             'password' => $password,
         ])) {
-            throw new \Exception('Invalid credentials');
+            throw ValidationException::withMessages([
+                'invalid_credential' => 'Username or password is incorrect!'
+            ]);
         }
 
         session()->regenerate();

@@ -24,7 +24,7 @@
                     </a>
                 </div>
                 
-                <livewire:account.auth />
+                <livewire:account.auth-header />
             </header>
 
             <!-- Main Content -->

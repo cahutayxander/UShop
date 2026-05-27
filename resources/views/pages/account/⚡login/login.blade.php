@@ -39,7 +39,11 @@
                                     class="w-full border border-gray-300 rounded px-3 py-2.5 focus:outline-none focus:border-[#ee4d2d] transition-colors"
                                 >
                             </div>
-                            
+
+                            @if ($errors->has('invalid_credential'))
+                                <p class="text-red-500 text-sm">{{ $errors->first('invalid_credential') }} </p>
+                            @endif
+
                             <button 
                                 type="submit"
                                 class="w-full bg-[#ee4d2d] text-white rounded py-2.5 hover:bg-[#d73211] transition-colors uppercase text-sm tracking-wide shadow-sm">

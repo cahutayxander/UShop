@@ -19,13 +19,7 @@ new class extends Component
                 <a href="#" class="transition hover:text-orange-100">Download App</a>
             </nav>
 
-            <nav class="flex flex-wrap items-center gap-3">
-                <a href="#" class="transition hover:text-orange-100">Notifications</a>
-                <a href="#" class="transition hover:text-orange-100">Help</a>
-                <a href="/buyer/signup" wire:navigate class="font-semibold transition hover:text-orange-100">Sign Up</a>
-                <span class="hidden h-4 w-px bg-orange-300 sm:block"></span>
-                <a href="/buyer/login" wire:navigate class="font-semibold transition hover:text-orange-100">Login</a>
-            </nav>
+            <livewire:account.auth-header />
         </div>
 
         <div class="grid gap-3 md:grid-cols-[auto_1fr_auto] md:items-center">

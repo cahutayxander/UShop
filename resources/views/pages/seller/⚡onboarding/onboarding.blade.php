@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-[#f5f5f5] text-[#222] antialiased">
     {{-- Seller onboarding: Shop Information (step 1) --}}
-    <header class="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 shadow-sm">
+    <!-- <header class="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 shadow-sm">
         <a href="/" wire:navigate class="flex items-center gap-2 text-[#ee4d2d]">
             <span class="grid size-10 place-items-center rounded-lg bg-[#ee4d2d] text-white shadow-sm">
                 <svg class="size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -34,7 +34,7 @@
                 <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </button>
-    </header>
+    </header> -->
 
     <div class="relative flex justify-center px-4 py-8 pb-28 sm:px-6 lg:px-8">
         <div class="w-full max-w-3xl rounded border border-gray-200 bg-white shadow-sm">
@@ -48,10 +48,10 @@
                     <div class="flex min-h-[10px] min-w-6 flex-1 items-center pt-[5px] sm:min-w-8" aria-hidden="true">
                         <div class="h-px w-full bg-gray-200"></div>
                     </div>
-                    <div class="flex flex-col items-center px-1">
+                    <!-- <div class="flex flex-col items-center px-1">
                         <span class="size-2.5 shrink-0 rounded-full bg-gray-300 ring-4 ring-white"></span>
                         <span class="mt-3 max-w-[9rem] text-center text-xs leading-snug text-gray-400 sm:max-w-none sm:text-sm">Business Information</span>
-                    </div>
+                    </div> -->
                     <div class="flex min-h-[10px] min-w-6 flex-1 items-center pt-[5px] sm:min-w-8" aria-hidden="true">
                         <div class="h-px w-full bg-gray-200"></div>
                     </div>

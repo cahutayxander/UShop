@@ -18,8 +18,9 @@ class ProductSellerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->company(),
+            'shop_name' => fake()->company(),
             'address' => fake()->address(),
+            'zip_code' => fake()->postcode(),
             'total_products' => 0,
             'total_followers' => fake()->numberBetween(0, 10000),
             'total_products_sold' => 0,

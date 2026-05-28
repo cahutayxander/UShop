@@ -28,9 +28,10 @@
             </header>
 
             <!-- Main Content -->
-            <main class="flex-grow flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 relative">
+            <main class="flex justify-center px-4 py-12 sm:px-6 lg:px-8 relative">
                 {{ $slot }}
             </main>
+            
 
             <!-- Right Utility Rail (Quick Actions) -->
             <aside class="pointer-events-none fixed right-4 top-1/2 z-20 hidden -translate-y-1/2 flex-col items-center gap-4 lg:pointer-events-auto lg:flex" aria-label="Quick actions">

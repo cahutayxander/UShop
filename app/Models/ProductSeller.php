@@ -19,8 +19,9 @@ class ProductSeller extends Model
      */
     protected $fillable = [
         'user_id',
-        'name',
+        'shop_name',
         'address',
+        'zip_code',
         'total_products',
         'total_followers',
         'total_products_sold',

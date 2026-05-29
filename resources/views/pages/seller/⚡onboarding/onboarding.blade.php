@@ -37,7 +37,7 @@
     </header> -->
 
     <div class="relative flex justify-center px-4 py-8 pb-28 sm:px-6 lg:px-8">
-        <div class="w-full max-w-3xl rounded border border-gray-200 bg-white shadow-sm">
+        <div class="w-full max-w-3xl min-w-0 rounded border border-gray-200 bg-white shadow-sm">
             {{-- Stepper --}}
             <div class="border-b border-gray-100 px-4 py-8 sm:px-10">
                 <nav class="mx-auto flex max-w-2xl items-start" aria-label="Onboarding progress">
@@ -63,6 +63,9 @@
             </div>
 
             <livewire:seller.onboarding.shop-info />            
+
+            {{-- Success State --}}
+            <livewire:seller.onboarding.submit />
 
         </div>
 

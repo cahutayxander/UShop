@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -57,5 +58,15 @@ class User extends Authenticatable
     public function roles(): HasMany
     {
         return $this->hasMany(Role::class);
+    }
+
+    /**
+     * Get the seller for this user.
+     *
+     * @return HasOne<ProductSeller, $this>
+     */
+    public function productSeller(): HasOne
+    {
+        return $this->hasOne(ProductSeller::class);
     }
 }

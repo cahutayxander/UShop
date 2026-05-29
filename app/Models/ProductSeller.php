@@ -50,4 +50,14 @@ class ProductSeller extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * Get the user that owns this seller.
+     *
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

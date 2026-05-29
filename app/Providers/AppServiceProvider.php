@@ -12,8 +12,10 @@ use App\Interfaces\ProductReviewInterface;
 use App\Repositories\ProductReviewRepository;
 use App\Interfaces\UserInterface;
 use App\Interfaces\RoleInterface;
+use App\Interfaces\ProductSellerInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\RoleRepository;
+use App\Repositories\ProductSellerRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductReviewInterface::class, ProductReviewRepository::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(RoleInterface::class, RoleRepository::class);
+        $this->app->bind(ProductSellerInterface::class, ProductSellerRepository::class);
     }
 
     /**

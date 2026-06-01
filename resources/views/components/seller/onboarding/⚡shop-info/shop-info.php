@@ -62,6 +62,6 @@ new class extends Component
             'otp' => $this->otpCode,
         ]);
 
-        session()->flash('success', 'Seller onboarding completed successfully');
+        $this->dispatch('user-is-verified-seller');
     }
 };

@@ -1,6 +1,6 @@
 <div class="px-4 py-14 sm:px-10">
     <div
-        class="mx-auto flex min-h-[320px] max-w-2xl flex-col items-center justify-center rounded border border-gray-100 bg-white text-center"
+        class="mx-auto flex min-h-[320px] max-w-2xl flex-col items-center justify-center text-center"
     >
         {{-- Success Icon --}}
         <div class="flex size-20 items-center justify-center rounded-full bg-[#5dd17a] shadow-sm">

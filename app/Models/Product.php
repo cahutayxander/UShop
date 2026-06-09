@@ -23,6 +23,8 @@ class Product extends Model
         'product_seller_id',
         'name',
         'description',
+        'image_path',
+        'image_34_path',
         'total_sold',
     ];
 

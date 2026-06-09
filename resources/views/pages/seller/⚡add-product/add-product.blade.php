@@ -26,422 +26,434 @@
                     </p>
                 </div>
 
-                <div class="px-6 py-7 space-y-8">
+                <form wire:submit="addProduct">
+                    <div class="px-6 py-7 space-y-8">
+                            {{-- ──── Product Images ──── --}}
+                            <div>
+                                <h2 class="text-sm font-semibold text-gray-800 mb-4">Product Images</h2>
 
-                    {{-- ──── Product Images ──── --}}
-                    <div>
-                        <h2 class="text-sm font-semibold text-gray-800 mb-4">Product Images</h2>
+                                {{-- 1:1 Image --}}
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-700 mb-3">
+                                        <span class="text-[#ee4d2d] mr-0.5">*</span> 1:1 Image
+                                    </p>
 
-                        {{-- 1:1 Image --}}
-                        <div class="mb-4">
-                            <p class="text-sm text-gray-700 mb-3">
-                                <span class="text-[#ee4d2d] mr-0.5">*</span> 1:1 Image
-                            </p>
+                                    {{-- Upload grid --}}
+                                    <div class="flex flex-wrap gap-3">
+                                        {{-- Uploaded image previews --}}
+                                        @foreach($images as $index => $image)
+                                            <div class="relative group h-24 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
+                                                {{-- Image preview --}}
+                                                <img
+                                                    src="{{ $image->temporaryUrl() }}"
+                                                    alt="Product image {{ $index + 1 }}"
+                                                    class="h-full w-full object-cover"
+                                                />
 
-                            {{-- Upload grid --}}
-                            <div class="flex flex-wrap gap-3">
-                                {{-- Uploaded image previews --}}
-                                @foreach($images as $index => $image)
-                                    <div class="relative group h-24 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
-                                        {{-- Image preview --}}
-                                        <img
-                                            src="{{ $image->temporaryUrl() }}"
-                                            alt="Product image {{ $index + 1 }}"
-                                            class="h-full w-full object-cover"
-                                        />
+                                                {{-- Cover badge on first image --}}
+                                                @if($index === 0)
+                                                    <div class="absolute bottom-0 inset-x-0 bg-[#ee4d2d] py-0.5 text-center">
+                                                        <span class="text-[10px] font-semibold text-white tracking-wide">★ Cover</span>
+                                                    </div>
+                                                @endif
 
-                                        {{-- Cover badge on first image --}}
-                                        @if($index === 0)
-                                            <div class="absolute bottom-0 inset-x-0 bg-[#ee4d2d] py-0.5 text-center">
-                                                <span class="text-[10px] font-semibold text-white tracking-wide">★ Cover</span>
+                                                {{-- Remove button (on hover) --}}
+                                                <button
+                                                    type="button"
+                                                    wire:click="removeImage({{ $index }})"
+                                                    class="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 cursor-pointer"
+                                                    aria-label="Remove image"
+                                                >
+                                                    <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                </button>
                                             </div>
+                                        @endforeach
+
+                                        {{-- Upload button (show if under 9 images) --}}
+                                        @if(count($images) < 9)
+                                            <label
+                                                for="product-image-upload"
+                                                class="group flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white transition hover:border-[#ee4d2d] hover:bg-[#fff8f6]"
+                                            >
+                                                <svg class="h-7 w-7 text-[#ee4d2d] transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
+                                                </svg>
+                                                <span class="mt-1 text-[10px] text-[#ee4d2d] font-medium">Add Image</span>
+                                                <span class="text-[10px] text-gray-400">({{ count($images) }}/9)</span>
+                                                <input
+                                                    id="product-image-upload"
+                                                    type="file"
+                                                    wire:model="images"
+                                                    accept="image/*"
+                                                    multiple
+                                                    class="hidden"
+                                                />
+                                            </label>
                                         @endif
-
-                                        {{-- Remove button (on hover) --}}
-                                        <button
-                                            type="button"
-                                            wire:click="removeImage({{ $index }})"
-                                            class="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 cursor-pointer"
-                                            aria-label="Remove image"
-                                        >
-                                            <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                            </svg>
-                                        </button>
                                     </div>
-                                @endforeach
 
-                                {{-- Upload button (show if under 9 images) --}}
-                                @if(count($images) < 9)
-                                    <label
-                                        for="product-image-upload"
-                                        class="group flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white transition hover:border-[#ee4d2d] hover:bg-[#fff8f6]"
-                                    >
-                                        <svg class="h-7 w-7 text-[#ee4d2d] transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
+                                    {{-- Upload loading indicator --}}
+                                    <div wire:loading wire:target="images" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
+                                        <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                                         </svg>
-                                        <span class="mt-1 text-[10px] text-[#ee4d2d] font-medium">Add Image</span>
-                                        <span class="text-[10px] text-gray-400">({{ count($images) }}/9)</span>
-                                        <input
-                                            id="product-image-upload"
-                                            type="file"
-                                            wire:model="images"
-                                            accept="image/*"
-                                            multiple
-                                            class="hidden"
-                                        />
-                                    </label>
+                                        Uploading...
+                                    </div>
+
+                                    {{-- Validation errors --}}
+                                    @error('images')
+                                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
+                                    @error('images.*')
+                                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Terms --}}
+                                <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                                    In accordance with the Terms of Service, you agree that others including UShop may use or adapt images, videos or any other Content provided by you in connection with the Services, including for commercial purpose. You can manage the settings
+                                    <a href="#" class="text-[#2673dd] hover:underline">HERE</a>
+                                </p>
+
+                                {{-- 3:4 option --}}
+                                <label class="flex items-start gap-2.5 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        wire:model.live="use34Image"
+                                        class="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#ee4d2d] accent-[#ee4d2d]"
+                                    />
+                                    <span class="text-sm text-gray-600 leading-relaxed">
+                                        <span class="font-medium text-gray-700">3:4 Image</span>
+                                        &nbsp;Impress buyers by adding 3:4 images for fashion products. This image size may not be suitable if campaign frames will be used for the product listing. You may opt to use 1:1 images if campaign frames will be used.
+                                        <a href="#" class="text-[#2673dd] hover:underline ml-1">View use cases</a>
+                                    </span>
+                                </label>
+
+                                {{-- 3:4 Image Upload Area (shown when checkbox is ticked) --}}
+                                @if($use34Image)
+                                    <div class="mt-5 rounded-lg border border-dashed border-[#ee4d2d]/40 bg-[#fff8f6] p-5 transition-all"
+                                        x-data
+                                        x-transition:enter="transition ease-out duration-200"
+                                        x-transition:enter-start="opacity-0 -translate-y-2"
+                                        x-transition:enter-end="opacity-100 translate-y-0"
+                                    >
+                                        {{-- Reference visual: 1:1 vs 3:4 comparison --}}
+                                        <div class="mb-5 rounded-lg bg-white border border-gray-100 p-5">
+                                            <h4 class="text-sm font-semibold text-gray-800 mb-1">1:1 Image vs. 3:4 Image</h4>
+                                            <p class="text-xs text-gray-500 mb-5 leading-relaxed">
+                                                3:4 images can better showcase your fashion products by displaying a full body shot of the model. As shown in the picture below:
+                                            </p>
+
+                                            <div class="flex items-end justify-center gap-8">
+
+                                                {{-- ── 1:1 Phone Mockup ── --}}
+                                                <div class="flex flex-col items-center gap-2">
+                                                    <div class="w-[130px] rounded-[14px] border border-gray-300 bg-white shadow-md overflow-hidden">
+                                                        {{-- Phone status bar --}}
+                                                        <div class="flex items-center justify-between bg-white px-2 py-1">
+                                                            <span class="text-[7px] text-gray-400 font-medium">9:41</span>
+                                                            <div class="flex items-center gap-0.5">
+                                                                <svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                                                                <svg class="h-2 w-3 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+                                                            </div>
+                                                        </div>
+                                                        {{-- 1:1 Product image area --}}
+                                                        <div class="w-full aspect-square bg-[#f0ede8] relative flex items-end justify-center overflow-hidden">
+                                                            {{-- Fashion model SVG illustration --}}
+                                                            <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect width="100" height="100" fill="#f0ede8"/>
+                                                                {{-- Background subtle gradient --}}
+                                                                <ellipse cx="50" cy="110" rx="40" ry="20" fill="#e0ddd8" opacity="0.5"/>
+                                                                {{-- Body / dress --}}
+                                                                <ellipse cx="50" cy="72" rx="18" ry="28" fill="#c8bfb0"/>
+                                                                {{-- Skirt flare --}}
+                                                                <path d="M32 70 Q30 95 28 100 H72 Q70 95 68 70 Q60 85 50 84 Q40 85 32 70Z" fill="#d4ccc2"/>
+                                                                {{-- Torso --}}
+                                                                <rect x="39" y="48" width="22" height="28" rx="4" fill="#bdb5a8"/>
+                                                                {{-- Neck --}}
+                                                                <rect x="46" y="40" width="8" height="12" rx="3" fill="#e8c9a0"/>
+                                                                {{-- Head --}}
+                                                                <ellipse cx="50" cy="34" rx="11" ry="12" fill="#e8c9a0"/>
+                                                                {{-- Hair --}}
+                                                                <path d="M39 30 Q40 18 50 18 Q60 18 61 30 Q58 24 50 23 Q42 24 39 30Z" fill="#3d2b1f"/>
+                                                                {{-- Face details --}}
+                                                                <ellipse cx="46" cy="33" rx="1.5" ry="1.5" fill="#5a3e32" opacity="0.8"/>
+                                                                <ellipse cx="54" cy="33" rx="1.5" ry="1.5" fill="#5a3e32" opacity="0.8"/>
+                                                                <path d="M47 38 Q50 40 53 38" stroke="#c0826a" stroke-width="1" fill="none" stroke-linecap="round"/>
+                                                                {{-- Left arm --}}
+                                                                <path d="M39 52 Q28 60 30 70" stroke="#e8c9a0" stroke-width="6" fill="none" stroke-linecap="round"/>
+                                                                {{-- Right arm / bag --}}
+                                                                <path d="M61 52 Q72 60 70 68" stroke="#e8c9a0" stroke-width="6" fill="none" stroke-linecap="round"/>
+                                                                <rect x="65" y="62" width="10" height="9" rx="2" fill="#8b7355"/>
+                                                                <path d="M67 62 Q68 58 70 58 Q72 58 73 62" stroke="#8b7355" stroke-width="1.5" fill="none"/>
+                                                            </svg>
+                                                        </div>
+                                                        {{-- Product listing details --}}
+                                                        <div class="bg-white px-2 pt-1.5 pb-2.5">
+                                                            {{-- Shop bar --}}
+                                                            <div class="flex items-center gap-1 mb-1.5">
+                                                                <div class="h-3 w-3 rounded-full bg-[#ee4d2d] flex items-center justify-center">
+                                                                    <svg class="h-2 w-2 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                                                </div>
+                                                                <span class="text-[6px] text-gray-600 font-semibold truncate">MMK2 Safa Britts Wrapped</span>
+                                                            </div>
+                                                            <div class="text-[6px] text-gray-400 truncate mb-1">Dress - Navy Checker</div>
+                                                            <div class="text-[7px] font-bold text-[#ee4d2d] mb-1">₱18,000</div>
+                                                            <div class="flex items-center gap-0.5 mb-1.5">
+                                                                @for($i = 0; $i < 4; $i++)
+                                                                    <svg class="h-1.5 w-1.5 text-[#ee4d2d]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                                                @endfor
+                                                                <span class="text-[5px] text-gray-400 ml-0.5">4.5 (190 sold)</span>
+                                                            </div>
+                                                            <div class="flex items-center justify-between">
+                                                                <div class="flex gap-1">
+                                                                    <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                                                    <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+                                                                    <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59L5.25 14c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03L22 6H5.21l-.94-2H1z"/></svg></button>
+                                                                </div>
+                                                                <button class="rounded bg-[#ee4d2d] px-2 py-0.5 text-[5px] font-bold text-white">Buy Now</button>
+                                                            </div>
+                                                            <div class="mt-1.5 border-t border-gray-100 pt-1">
+                                                                <div class="text-[5px] text-gray-400 font-semibold">Product Details</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-xs text-gray-500 font-medium">1:1 Image</span>
+                                                </div>
+
+                                                {{-- ── 3:4 Phone Mockup ── --}}
+                                                <div class="flex flex-col items-center gap-2">
+                                                    <div class="w-[130px] rounded-[14px] border border-[#ee4d2d]/40 bg-white shadow-md overflow-hidden">
+                                                        {{-- Phone status bar --}}
+                                                        <div class="flex items-center justify-between bg-white px-2 py-1">
+                                                            <span class="text-[7px] text-gray-400 font-medium">9:41</span>
+                                                            <div class="flex items-center gap-0.5">
+                                                                <svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+                                                                <svg class="h-2 w-3 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
+                                                            </div>
+                                                        </div>
+                                                        {{-- 3:4 Product image area (taller) --}}
+                                                        <div class="w-full bg-[#f0ede8] relative flex items-end justify-center overflow-hidden" style="aspect-ratio: 3/4;">
+                                                            <svg viewBox="0 0 100 133" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                                                                <rect width="100" height="133" fill="#f0ede8"/>
+                                                                <ellipse cx="50" cy="143" rx="45" ry="22" fill="#e0ddd8" opacity="0.5"/>
+                                                                {{-- Full-body long skirt --}}
+                                                                <path d="M34 78 Q28 110 26 133 H74 Q72 110 66 78 Q58 100 50 99 Q42 100 34 78Z" fill="#d4ccc2"/>
+                                                                {{-- Skirt pleats detail --}}
+                                                                <path d="M50 99 Q50 116 50 133" stroke="#c5bdb4" stroke-width="0.5" opacity="0.6"/>
+                                                                <path d="M40 102 Q38 118 36 133" stroke="#c5bdb4" stroke-width="0.5" opacity="0.6"/>
+                                                                <path d="M60 102 Q62 118 64 133" stroke="#c5bdb4" stroke-width="0.5" opacity="0.6"/>
+                                                                {{-- Torso --}}
+                                                                <rect x="39" y="54" width="22" height="30" rx="4" fill="#bdb5a8"/>
+                                                                {{-- Belt --}}
+                                                                <rect x="37" y="76" width="26" height="4" rx="1" fill="#8b7355"/>
+                                                                {{-- Neck --}}
+                                                                <rect x="46" y="46" width="8" height="12" rx="3" fill="#e8c9a0"/>
+                                                                {{-- Head --}}
+                                                                <ellipse cx="50" cy="38" rx="12" ry="13" fill="#e8c9a0"/>
+                                                                {{-- Hair --}}
+                                                                <path d="M38 34 Q39 20 50 19 Q61 20 62 34 Q58 26 50 25 Q42 26 38 34Z" fill="#3d2b1f"/>
+                                                                <path d="M38 34 Q35 40 37 48" stroke="#3d2b1f" stroke-width="4" fill="none" stroke-linecap="round"/>
+                                                                <path d="M62 34 Q65 40 63 48" stroke="#3d2b1f" stroke-width="4" fill="none" stroke-linecap="round"/>
+                                                                {{-- Face --}}
+                                                                <ellipse cx="45.5" cy="37" rx="1.5" ry="1.5" fill="#5a3e32" opacity="0.8"/>
+                                                                <ellipse cx="54.5" cy="37" rx="1.5" ry="1.5" fill="#5a3e32" opacity="0.8"/>
+                                                                <path d="M47 42 Q50 44.5 53 42" stroke="#c0826a" stroke-width="1" fill="none" stroke-linecap="round"/>
+                                                                {{-- Arms --}}
+                                                                <path d="M39 58 Q25 68 27 82" stroke="#e8c9a0" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+                                                                <path d="M61 58 Q75 68 73 80" stroke="#e8c9a0" stroke-width="6.5" fill="none" stroke-linecap="round"/>
+                                                                {{-- Bag --}}
+                                                                <rect x="68" y="72" width="12" height="11" rx="2.5" fill="#8b7355"/>
+                                                                <path d="M70 72 Q71 66 74 66 Q77 66 78 72" stroke="#8b7355" stroke-width="1.5" fill="none"/>
+                                                                {{-- Shoes --}}
+                                                                <ellipse cx="42" cy="131" rx="5" ry="2" fill="#3d2b1f"/>
+                                                                <ellipse cx="58" cy="131" rx="5" ry="2" fill="#3d2b1f"/>
+                                                            </svg>
+                                                        </div>
+                                                        {{-- Product listing details --}}
+                                                        <div class="bg-white px-2 pt-1.5 pb-2.5">
+                                                            <div class="flex items-center gap-1 mb-1.5">
+                                                                <div class="h-3 w-3 rounded-full bg-[#ee4d2d] flex items-center justify-center">
+                                                                    <svg class="h-2 w-2 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                                                                </div>
+                                                                <span class="text-[6px] text-gray-600 font-semibold truncate">MMK2 Safa Britts Wrapped</span>
+                                                            </div>
+                                                            <div class="text-[6px] text-gray-400 truncate mb-1">Dress - Navy Checker</div>
+                                                            <div class="text-[7px] font-bold text-[#ee4d2d] mb-1">₱18,000</div>
+                                                            <div class="flex items-center gap-0.5 mb-1.5">
+                                                                @for($i = 0; $i < 4; $i++)
+                                                                    <svg class="h-1.5 w-1.5 text-[#ee4d2d]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                                                @endfor
+                                                                <span class="text-[5px] text-gray-400 ml-0.5">4.5 (190 sold)</span>
+                                                            </div>
+                                                            <div class="flex items-center justify-between">
+                                                                <div class="flex gap-1">
+                                                                    <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                                                    <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+                                                                    <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59L5.25 14c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03L22 6H5.21l-.94-2H1z"/></svg></button>
+                                                                </div>
+                                                                <button class="rounded bg-[#ee4d2d] px-2 py-0.5 text-[5px] font-bold text-white">Buy Now</button>
+                                                            </div>
+                                                            <div class="mt-1.5 border-t border-gray-100 pt-1">
+                                                                <div class="text-[5px] text-gray-400 font-semibold">Product Details</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-xs text-[#ee4d2d] font-semibold">3:4 Image</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        {{-- 3:4 Upload grid --}}
+                                        <p class="text-sm text-gray-700 mb-3 font-medium">
+                                            <span class="text-[#ee4d2d] mr-0.5">*</span> 3:4 Images
+                                        </p>
+                                        <div class="flex flex-wrap gap-3">
+                                            {{-- Uploaded 3:4 image previews --}}
+                                            @foreach($images34 as $index => $image34)
+                                                <div class="relative group h-32 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
+                                                    <img
+                                                        src="{{ $image34->temporaryUrl() }}"
+                                                        alt="3:4 Product image {{ $index + 1 }}"
+                                                        class="h-full w-full object-cover"
+                                                    />
+                                                    {{-- Cover badge on first 3:4 image --}}
+                                                    @if($index === 0)
+                                                        <div class="absolute bottom-0 inset-x-0 bg-[#ee4d2d] py-0.5 text-center">
+                                                            <span class="text-[10px] font-semibold text-white tracking-wide">★ Cover</span>
+                                                        </div>
+                                                    @endif
+                                                    <button
+                                                        type="button"
+                                                        wire:click="removeImage34({{ $index }})"
+                                                        class="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 cursor-pointer"
+                                                        aria-label="Remove 3:4 image"
+                                                    >
+                                                        <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            @endforeach
+
+                                            {{-- 3:4 Upload button --}}
+                                            @if(count($images34) < 9)
+                                                <label
+                                                    for="product-image-34-upload"
+                                                    class="group flex h-32 w-24 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-[#ee4d2d]/40 bg-white transition hover:border-[#ee4d2d] hover:bg-[#fff5f2]"
+                                                >
+                                                    <svg class="h-7 w-7 text-[#ee4d2d] transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
+                                                    </svg>
+                                                    <span class="mt-1 text-[10px] text-[#ee4d2d] font-medium">Add 3:4</span>
+                                                    <span class="text-[10px] text-gray-400">({{ count($images34) }}/9)</span>
+                                                    <input
+                                                        id="product-image-34-upload"
+                                                        type="file"
+                                                        wire:model="images34"
+                                                        accept="image/*"
+                                                        multiple
+                                                        class="hidden"
+                                                    />
+                                                </label>
+                                            @endif
+                                        </div>
+
+                                        {{-- Upload loading indicator for 3:4 --}}
+                                        <div wire:loading wire:target="images34" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
+                                            <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                                            </svg>
+                                            Uploading...
+                                        </div>
+
+                                        @error('images34.*')
+                                            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                                        @enderror
+                                    </div>
                                 @endif
                             </div>
 
-                            {{-- Upload loading indicator --}}
-                            <div wire:loading wire:target="images" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
-                                <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                                </svg>
-                                Uploading...
-                            </div>
-
-                            {{-- Validation errors --}}
-                            @error('images.*')
-                                <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        {{-- Terms --}}
-                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
-                            In accordance with the Terms of Service, you agree that others including UShop may use or adapt images, videos or any other Content provided by you in connection with the Services, including for commercial purpose. You can manage the settings
-                            <a href="#" class="text-[#2673dd] hover:underline">HERE</a>
-                        </p>
-
-                        {{-- 3:4 option --}}
-                        <label class="flex items-start gap-2.5 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                wire:model.live="use34Image"
-                                class="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#ee4d2d] accent-[#ee4d2d]"
-                            />
-                            <span class="text-sm text-gray-600 leading-relaxed">
-                                <span class="font-medium text-gray-700">3:4 Image</span>
-                                &nbsp;Impress buyers by adding 3:4 images for fashion products. This image size may not be suitable if campaign frames will be used for the product listing. You may opt to use 1:1 images if campaign frames will be used.
-                                <a href="#" class="text-[#2673dd] hover:underline ml-1">View use cases</a>
-                            </span>
-                        </label>
-
-                        {{-- 3:4 Image Upload Area (shown when checkbox is ticked) --}}
-                        @if($use34Image)
-                            <div class="mt-5 rounded-lg border border-dashed border-[#ee4d2d]/40 bg-[#fff8f6] p-5 transition-all"
-                                 x-data
-                                 x-transition:enter="transition ease-out duration-200"
-                                 x-transition:enter-start="opacity-0 -translate-y-2"
-                                 x-transition:enter-end="opacity-100 translate-y-0"
-                            >
-                                {{-- Reference visual: 1:1 vs 3:4 comparison --}}
-                                <div class="mb-5 rounded-lg bg-white border border-gray-100 p-5">
-                                    <h4 class="text-sm font-semibold text-gray-800 mb-1">1:1 Image vs. 3:4 Image</h4>
-                                    <p class="text-xs text-gray-500 mb-5 leading-relaxed">
-                                        3:4 images can better showcase your fashion products by displaying a full body shot of the model. As shown in the picture below:
-                                    </p>
-
-                                    <div class="flex items-end justify-center gap-8">
-
-                                        {{-- ── 1:1 Phone Mockup ── --}}
-                                        <div class="flex flex-col items-center gap-2">
-                                            <div class="w-[130px] rounded-[14px] border border-gray-300 bg-white shadow-md overflow-hidden">
-                                                {{-- Phone status bar --}}
-                                                <div class="flex items-center justify-between bg-white px-2 py-1">
-                                                    <span class="text-[7px] text-gray-400 font-medium">9:41</span>
-                                                    <div class="flex items-center gap-0.5">
-                                                        <svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
-                                                        <svg class="h-2 w-3 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
-                                                    </div>
-                                                </div>
-                                                {{-- 1:1 Product image area --}}
-                                                <div class="w-full aspect-square bg-[#f0ede8] relative flex items-end justify-center overflow-hidden">
-                                                    {{-- Fashion model SVG illustration --}}
-                                                    <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                                                        <rect width="100" height="100" fill="#f0ede8"/>
-                                                        {{-- Background subtle gradient --}}
-                                                        <ellipse cx="50" cy="110" rx="40" ry="20" fill="#e0ddd8" opacity="0.5"/>
-                                                        {{-- Body / dress --}}
-                                                        <ellipse cx="50" cy="72" rx="18" ry="28" fill="#c8bfb0"/>
-                                                        {{-- Skirt flare --}}
-                                                        <path d="M32 70 Q30 95 28 100 H72 Q70 95 68 70 Q60 85 50 84 Q40 85 32 70Z" fill="#d4ccc2"/>
-                                                        {{-- Torso --}}
-                                                        <rect x="39" y="48" width="22" height="28" rx="4" fill="#bdb5a8"/>
-                                                        {{-- Neck --}}
-                                                        <rect x="46" y="40" width="8" height="12" rx="3" fill="#e8c9a0"/>
-                                                        {{-- Head --}}
-                                                        <ellipse cx="50" cy="34" rx="11" ry="12" fill="#e8c9a0"/>
-                                                        {{-- Hair --}}
-                                                        <path d="M39 30 Q40 18 50 18 Q60 18 61 30 Q58 24 50 23 Q42 24 39 30Z" fill="#3d2b1f"/>
-                                                        {{-- Face details --}}
-                                                        <ellipse cx="46" cy="33" rx="1.5" ry="1.5" fill="#5a3e32" opacity="0.8"/>
-                                                        <ellipse cx="54" cy="33" rx="1.5" ry="1.5" fill="#5a3e32" opacity="0.8"/>
-                                                        <path d="M47 38 Q50 40 53 38" stroke="#c0826a" stroke-width="1" fill="none" stroke-linecap="round"/>
-                                                        {{-- Left arm --}}
-                                                        <path d="M39 52 Q28 60 30 70" stroke="#e8c9a0" stroke-width="6" fill="none" stroke-linecap="round"/>
-                                                        {{-- Right arm / bag --}}
-                                                        <path d="M61 52 Q72 60 70 68" stroke="#e8c9a0" stroke-width="6" fill="none" stroke-linecap="round"/>
-                                                        <rect x="65" y="62" width="10" height="9" rx="2" fill="#8b7355"/>
-                                                        <path d="M67 62 Q68 58 70 58 Q72 58 73 62" stroke="#8b7355" stroke-width="1.5" fill="none"/>
-                                                    </svg>
-                                                </div>
-                                                {{-- Product listing details --}}
-                                                <div class="bg-white px-2 pt-1.5 pb-2.5">
-                                                    {{-- Shop bar --}}
-                                                    <div class="flex items-center gap-1 mb-1.5">
-                                                        <div class="h-3 w-3 rounded-full bg-[#ee4d2d] flex items-center justify-center">
-                                                            <svg class="h-2 w-2 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                                                        </div>
-                                                        <span class="text-[6px] text-gray-600 font-semibold truncate">MMK2 Safa Britts Wrapped</span>
-                                                    </div>
-                                                    <div class="text-[6px] text-gray-400 truncate mb-1">Dress - Navy Checker</div>
-                                                    <div class="text-[7px] font-bold text-[#ee4d2d] mb-1">₱18,000</div>
-                                                    <div class="flex items-center gap-0.5 mb-1.5">
-                                                        @for($i = 0; $i < 4; $i++)
-                                                            <svg class="h-1.5 w-1.5 text-[#ee4d2d]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                                                        @endfor
-                                                        <span class="text-[5px] text-gray-400 ml-0.5">4.5 (190 sold)</span>
-                                                    </div>
-                                                    <div class="flex items-center justify-between">
-                                                        <div class="flex gap-1">
-                                                            <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                                                            <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-                                                            <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59L5.25 14c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03L22 6H5.21l-.94-2H1z"/></svg></button>
-                                                        </div>
-                                                        <button class="rounded bg-[#ee4d2d] px-2 py-0.5 text-[5px] font-bold text-white">Buy Now</button>
-                                                    </div>
-                                                    <div class="mt-1.5 border-t border-gray-100 pt-1">
-                                                        <div class="text-[5px] text-gray-400 font-semibold">Product Details</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="text-xs text-gray-500 font-medium">1:1 Image</span>
-                                        </div>
-
-                                        {{-- ── 3:4 Phone Mockup ── --}}
-                                        <div class="flex flex-col items-center gap-2">
-                                            <div class="w-[130px] rounded-[14px] border border-[#ee4d2d]/40 bg-white shadow-md overflow-hidden">
-                                                {{-- Phone status bar --}}
-                                                <div class="flex items-center justify-between bg-white px-2 py-1">
-                                                    <span class="text-[7px] text-gray-400 font-medium">9:41</span>
-                                                    <div class="flex items-center gap-0.5">
-                                                        <svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
-                                                        <svg class="h-2 w-3 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>
-                                                    </div>
-                                                </div>
-                                                {{-- 3:4 Product image area (taller) --}}
-                                                <div class="w-full bg-[#f0ede8] relative flex items-end justify-center overflow-hidden" style="aspect-ratio: 3/4;">
-                                                    <svg viewBox="0 0 100 133" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                                                        <rect width="100" height="133" fill="#f0ede8"/>
-                                                        <ellipse cx="50" cy="143" rx="45" ry="22" fill="#e0ddd8" opacity="0.5"/>
-                                                        {{-- Full-body long skirt --}}
-                                                        <path d="M34 78 Q28 110 26 133 H74 Q72 110 66 78 Q58 100 50 99 Q42 100 34 78Z" fill="#d4ccc2"/>
-                                                        {{-- Skirt pleats detail --}}
-                                                        <path d="M50 99 Q50 116 50 133" stroke="#c5bdb4" stroke-width="0.5" opacity="0.6"/>
-                                                        <path d="M40 102 Q38 118 36 133" stroke="#c5bdb4" stroke-width="0.5" opacity="0.6"/>
-                                                        <path d="M60 102 Q62 118 64 133" stroke="#c5bdb4" stroke-width="0.5" opacity="0.6"/>
-                                                        {{-- Torso --}}
-                                                        <rect x="39" y="54" width="22" height="30" rx="4" fill="#bdb5a8"/>
-                                                        {{-- Belt --}}
-                                                        <rect x="37" y="76" width="26" height="4" rx="1" fill="#8b7355"/>
-                                                        {{-- Neck --}}
-                                                        <rect x="46" y="46" width="8" height="12" rx="3" fill="#e8c9a0"/>
-                                                        {{-- Head --}}
-                                                        <ellipse cx="50" cy="38" rx="12" ry="13" fill="#e8c9a0"/>
-                                                        {{-- Hair --}}
-                                                        <path d="M38 34 Q39 20 50 19 Q61 20 62 34 Q58 26 50 25 Q42 26 38 34Z" fill="#3d2b1f"/>
-                                                        <path d="M38 34 Q35 40 37 48" stroke="#3d2b1f" stroke-width="4" fill="none" stroke-linecap="round"/>
-                                                        <path d="M62 34 Q65 40 63 48" stroke="#3d2b1f" stroke-width="4" fill="none" stroke-linecap="round"/>
-                                                        {{-- Face --}}
-                                                        <ellipse cx="45.5" cy="37" rx="1.5" ry="1.5" fill="#5a3e32" opacity="0.8"/>
-                                                        <ellipse cx="54.5" cy="37" rx="1.5" ry="1.5" fill="#5a3e32" opacity="0.8"/>
-                                                        <path d="M47 42 Q50 44.5 53 42" stroke="#c0826a" stroke-width="1" fill="none" stroke-linecap="round"/>
-                                                        {{-- Arms --}}
-                                                        <path d="M39 58 Q25 68 27 82" stroke="#e8c9a0" stroke-width="6.5" fill="none" stroke-linecap="round"/>
-                                                        <path d="M61 58 Q75 68 73 80" stroke="#e8c9a0" stroke-width="6.5" fill="none" stroke-linecap="round"/>
-                                                        {{-- Bag --}}
-                                                        <rect x="68" y="72" width="12" height="11" rx="2.5" fill="#8b7355"/>
-                                                        <path d="M70 72 Q71 66 74 66 Q77 66 78 72" stroke="#8b7355" stroke-width="1.5" fill="none"/>
-                                                        {{-- Shoes --}}
-                                                        <ellipse cx="42" cy="131" rx="5" ry="2" fill="#3d2b1f"/>
-                                                        <ellipse cx="58" cy="131" rx="5" ry="2" fill="#3d2b1f"/>
-                                                    </svg>
-                                                </div>
-                                                {{-- Product listing details --}}
-                                                <div class="bg-white px-2 pt-1.5 pb-2.5">
-                                                    <div class="flex items-center gap-1 mb-1.5">
-                                                        <div class="h-3 w-3 rounded-full bg-[#ee4d2d] flex items-center justify-center">
-                                                            <svg class="h-2 w-2 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                                                        </div>
-                                                        <span class="text-[6px] text-gray-600 font-semibold truncate">MMK2 Safa Britts Wrapped</span>
-                                                    </div>
-                                                    <div class="text-[6px] text-gray-400 truncate mb-1">Dress - Navy Checker</div>
-                                                    <div class="text-[7px] font-bold text-[#ee4d2d] mb-1">₱18,000</div>
-                                                    <div class="flex items-center gap-0.5 mb-1.5">
-                                                        @for($i = 0; $i < 4; $i++)
-                                                            <svg class="h-1.5 w-1.5 text-[#ee4d2d]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                                                        @endfor
-                                                        <span class="text-[5px] text-gray-400 ml-0.5">4.5 (190 sold)</span>
-                                                    </div>
-                                                    <div class="flex items-center justify-between">
-                                                        <div class="flex gap-1">
-                                                            <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                                                            <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
-                                                            <button class="h-3.5 w-3.5 rounded border border-gray-300 flex items-center justify-center"><svg class="h-2 w-2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59L5.25 14c-.16.28-.25.61-.25.96C5 16.1 5.9 17 7 17h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H17c.75 0 1.41-.41 1.75-1.03L22 6H5.21l-.94-2H1z"/></svg></button>
-                                                        </div>
-                                                        <button class="rounded bg-[#ee4d2d] px-2 py-0.5 text-[5px] font-bold text-white">Buy Now</button>
-                                                    </div>
-                                                    <div class="mt-1.5 border-t border-gray-100 pt-1">
-                                                        <div class="text-[5px] text-gray-400 font-semibold">Product Details</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class="text-xs text-[#ee4d2d] font-semibold">3:4 Image</span>
-                                        </div>
-
-                                    </div>
+                            {{-- ──── Product Name ──── --}}
+                            <div>
+                                <label for="product-name" class="mb-2 block text-sm text-gray-700">
+                                    <span class="text-[#ee4d2d] mr-0.5">*</span> Product Name
+                                </label>
+                                <div class="relative">
+                                    <input
+                                        id="product-name"
+                                        type="text"
+                                        wire:model.live="productName"
+                                        maxlength="100"
+                                        placeholder="Brand Name + Product Type + Key Features (Materials, Colors, Size, Model)"
+                                        class="w-full rounded border border-gray-300 bg-white py-2.5 pl-3 pr-16 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#ee4d2d]"
+                                    />
+                                    <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-gray-400">
+                                        {{ strlen($productName) }}/100
+                                    </span>
                                 </div>
 
-                                {{-- 3:4 Upload grid --}}
-                                <p class="text-sm text-gray-700 mb-3 font-medium">
-                                    <span class="text-[#ee4d2d] mr-0.5">*</span> 3:4 Images
-                                </p>
-                                <div class="flex flex-wrap gap-3">
-                                    {{-- Uploaded 3:4 image previews --}}
-                                    @foreach($images34 as $index => $image34)
-                                        <div class="relative group h-32 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
-                                            <img
-                                                src="{{ $image34->temporaryUrl() }}"
-                                                alt="3:4 Product image {{ $index + 1 }}"
-                                                class="h-full w-full object-cover"
-                                            />
-                                            {{-- Cover badge on first 3:4 image --}}
-                                            @if($index === 0)
-                                                <div class="absolute bottom-0 inset-x-0 bg-[#ee4d2d] py-0.5 text-center">
-                                                    <span class="text-[10px] font-semibold text-white tracking-wide">★ Cover</span>
-                                                </div>
-                                            @endif
-                                            <button
-                                                type="button"
-                                                wire:click="removeImage34({{ $index }})"
-                                                class="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 cursor-pointer"
-                                                aria-label="Remove 3:4 image"
-                                            >
-                                                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    @endforeach
-
-                                    {{-- 3:4 Upload button --}}
-                                    @if(count($images34) < 9)
-                                        <label
-                                            for="product-image-34-upload"
-                                            class="group flex h-32 w-24 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-[#ee4d2d]/40 bg-white transition hover:border-[#ee4d2d] hover:bg-[#fff5f2]"
-                                        >
-                                            <svg class="h-7 w-7 text-[#ee4d2d] transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
-                                            </svg>
-                                            <span class="mt-1 text-[10px] text-[#ee4d2d] font-medium">Add 3:4</span>
-                                            <span class="text-[10px] text-gray-400">({{ count($images34) }}/9)</span>
-                                            <input
-                                                id="product-image-34-upload"
-                                                type="file"
-                                                wire:model="images34"
-                                                accept="image/*"
-                                                multiple
-                                                class="hidden"
-                                            />
-                                        </label>
-                                    @endif
-                                </div>
-
-                                {{-- Upload loading indicator for 3:4 --}}
-                                <div wire:loading wire:target="images34" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
-                                    <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                                    </svg>
-                                    Uploading...
-                                </div>
-
-                                @error('images34.*')
+                                @error('productName')
                                     <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
-                        @endif
+
+                            {{-- ──── Product Description ──── --}}
+                            <div>
+                                <label for="product-description" class="mb-2 block text-sm text-gray-700">
+                                    <span class="text-[#ee4d2d] mr-0.5">*</span> Product Description
+                                </label>
+
+                                {{-- Description toolbar --}}
+                                <div class="rounded-t border border-b-0 border-gray-300 bg-[#fafafa] px-3 py-2 flex items-center gap-1">
+                                    <button type="button" class="p-1.5 rounded text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition" title="Add Images">
+                                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
+                                        </svg>
+                                    </button>
+                                    <span class="text-xs text-gray-400 ml-1">Add Images (0/12)</span>
+                                    <span class="ml-auto text-xs text-gray-400">{{ strlen($description) }}/3000</span>
+                                </div>
+
+                                {{-- Description textarea --}}
+                                <div class="relative">
+                                    <textarea
+                                        id="product-description"
+                                        wire:model.live="description"
+                                        maxlength="3000"
+                                        rows="8"
+                                        placeholder="Please enter product description characters or add Images"
+                                        class="w-full rounded-b border border-gray-300 bg-white py-3 px-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#ee4d2d] resize-y min-h-[120px]"
+                                    ></textarea>
+                                </div>
+
+                                @error('description')
+                                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
                     </div>
 
-                    {{-- ──── Product Name ──── --}}
-                    <div>
-                        <label for="product-name" class="mb-2 block text-sm text-gray-700">
-                            <span class="text-[#ee4d2d] mr-0.5">*</span> Product Name
-                        </label>
-                        <div class="relative">
-                            <input
-                                id="product-name"
-                                type="text"
-                                wire:model.live="productName"
-                                maxlength="100"
-                                placeholder="Brand Name + Product Type + Key Features (Materials, Colors, Size, Model)"
-                                class="w-full rounded border border-gray-300 bg-white py-2.5 pl-3 pr-16 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#ee4d2d]"
-                            />
-                            <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-gray-400">
-                                {{ strlen($productName) }}/100
-                            </span>
-                        </div>
+                    {{-- ──── Footer actions ──── --}}
+                    <div class="flex flex-col-reverse items-stretch gap-3 border-t border-gray-200 bg-[#fafafa] px-6 py-5 sm:flex-row sm:justify-end">
+                        <button
+                            type="button"
+                            class="rounded border border-gray-300 bg-white px-8 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50 cursor-pointer"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            class="rounded bg-[#ee4d2d] px-10 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#d73211] cursor-pointer"
+                        >
+                            Add Product
+                        </button>
                     </div>
-
-                    {{-- ──── Product Description ──── --}}
-                    <div>
-                        <label for="product-description" class="mb-2 block text-sm text-gray-700">
-                            <span class="text-[#ee4d2d] mr-0.5">*</span> Product Description
-                        </label>
-
-                        {{-- Description toolbar --}}
-                        <div class="rounded-t border border-b-0 border-gray-300 bg-[#fafafa] px-3 py-2 flex items-center gap-1">
-                            <button type="button" class="p-1.5 rounded text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition" title="Add Images">
-                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
-                                </svg>
-                            </button>
-                            <span class="text-xs text-gray-400 ml-1">Add Images (0/12)</span>
-                            <span class="ml-auto text-xs text-gray-400">{{ strlen($description) }}/3000</span>
-                        </div>
-
-                        {{-- Description textarea --}}
-                        <div class="relative">
-                            <textarea
-                                id="product-description"
-                                wire:model.live="description"
-                                maxlength="3000"
-                                rows="8"
-                                placeholder="Please enter product description characters or add Images"
-                                class="w-full rounded-b border border-gray-300 bg-white py-3 px-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#ee4d2d] resize-y min-h-[120px]"
-                            ></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- ──── Footer actions ──── --}}
-                <div class="flex flex-col-reverse items-stretch gap-3 border-t border-gray-200 bg-[#fafafa] px-6 py-5 sm:flex-row sm:justify-end">
-                    <button
-                        type="button"
-                        class="rounded border border-gray-300 bg-white px-8 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50 cursor-pointer"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="button"
-                        class="rounded bg-[#ee4d2d] px-10 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#d73211] cursor-pointer"
-                    >
-                        Next Step
-                    </button>
-                </div>
+                </form>
             </div>
         </div>
 

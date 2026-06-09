@@ -24,8 +24,6 @@ class ProductFactory extends Factory
             'product_seller_id' => ProductSeller::factory(),
             'name' => fake()->words(3, true),
             'description' => fake()->paragraph(),
-            'image_path' => fake()->image(),
-            'image_34_path' => fake()->image(),
             'total_sold' => fake()->numberBetween(0, 2500),
         ];
     }

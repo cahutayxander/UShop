@@ -23,8 +23,6 @@ class Product extends Model
         'product_seller_id',
         'name',
         'description',
-        'image_path',
-        'image_34_path',
         'total_sold',
     ];
 
@@ -78,5 +76,15 @@ class Product extends Model
     public function productReviews(): HasMany
     {
         return $this->hasMany(ProductReview::class);
+    }
+
+    /**
+     * Get the product images for this product.
+     *
+     * @return HasMany<ProductImage, $this>
+     */
+    public function productImages(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

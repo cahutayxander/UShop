@@ -65,6 +65,7 @@ class DatabaseSeeder extends Seeder
                 ->create();
 
             foreach ($products as $product) {
+                \App\Models\ProductImage::factory()->count(rand(1, 3))->create(['product_id' => $product->id]);
                 \App\Models\ProductVariant::factory()->count(rand(1, 4))->create(['product_id' => $product->id]);
                 
                 $numReviews = rand(0, 5);

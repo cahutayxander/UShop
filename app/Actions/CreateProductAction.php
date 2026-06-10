@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Interfaces\ProductInterface;
+use Illuminate\Support\Facades\DB;
 
 class CreateProductAction
 {
@@ -12,22 +13,23 @@ class CreateProductAction
     {
         return DB::transaction(function () use ($nonImageData, $regularImages, $enlargedImages) {
 
+            $storage = config('filesystems.default');
             $product = $this->productRepository->create($nonImageData);
 
-            $productSeller = auth()->user()->productSeller;
-            $sellerId = $productSeller->id;
+            $sellerId = $nonImageData['product_seller_id'];
             $mainFolder = "products";
-            $regImgFolder = "$mainFolder/$sellerId";
+            $regImgFolder = "$mainFolder/regular/$sellerId";
             $enLargedImgFolder = "$mainFolder/enlarged/$sellerId";
 
             foreach ($regularImages as $index => $image) {
                 // Store regular 1:1 image
-                $regularPath = $image->store($regImgFolder, 'local'); // change 'local' to 's3' in production
+                $regularPath = $image->store($regImgFolder, $storage);
                 // Store enlarged 3:4 image if it exists for this index
                 $enlargedPath = null;
                 if (isset($enlargedImages[$index])) {
-                    $enlargedPath = $enlargedImages[$index]->store($enLargedImgFolder, 'local');
+                    $enlargedPath = $enlargedImages[$index]->store($enLargedImgFolder, $storage);
                 }
+
                 // Create the ProductImage record
                 $product->productImages()
                     ->create([

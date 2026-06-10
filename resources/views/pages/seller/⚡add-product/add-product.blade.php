@@ -41,7 +41,7 @@
                                     {{-- Upload grid --}}
                                     <div class="flex flex-wrap gap-3">
                                         {{-- Uploaded image previews --}}
-                                        @foreach($images as $index => $image)
+                                        @foreach($regularImages as $index => $image)
                                             <div class="relative group h-24 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
                                                 {{-- Image preview --}}
                                                 <img
@@ -72,7 +72,7 @@
                                         @endforeach
 
                                         {{-- Upload button (show if under 9 images) --}}
-                                        @if(count($images) < 9)
+                                        @if(count($regularImages) < 9)
                                             <label
                                                 for="product-image-upload"
                                                 class="group flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white transition hover:border-[#ee4d2d] hover:bg-[#fff8f6]"
@@ -81,11 +81,11 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
                                                 </svg>
                                                 <span class="mt-1 text-[10px] text-[#ee4d2d] font-medium">Add Image</span>
-                                                <span class="text-[10px] text-gray-400">({{ count($images) }}/9)</span>
+                                                <span class="text-[10px] text-gray-400">({{ count($regularImages) }}/9)</span>
                                                 <input
                                                     id="product-image-upload"
                                                     type="file"
-                                                    wire:model="images"
+                                                    wire:model="regularImages"
                                                     accept="image/*"
                                                     multiple
                                                     class="hidden"
@@ -95,7 +95,7 @@
                                     </div>
 
                                     {{-- Upload loading indicator --}}
-                                    <div wire:loading wire:target="images" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
+                                    <div wire:loading wire:target="regularImages" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
                                         <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
                                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
@@ -104,10 +104,10 @@
                                     </div>
 
                                     {{-- Validation errors --}}
-                                    @error('images')
+                                    @error('regularImages')
                                         <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                                     @enderror
-                                    @error('images.*')
+                                    @error('regularImages.*')
                                         <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -314,7 +314,7 @@
                                         </p>
                                         <div class="flex flex-wrap gap-3">
                                             {{-- Uploaded 3:4 image previews --}}
-                                            @foreach($images34 as $index => $image34)
+                                            @foreach($enlargedImages as $index => $image34)
                                                 <div class="relative group h-32 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
                                                     <img
                                                         src="{{ $image34->temporaryUrl() }}"
@@ -341,7 +341,7 @@
                                             @endforeach
 
                                             {{-- 3:4 Upload button --}}
-                                            @if(count($images34) < 9)
+                                            @if(count($enlargedImages) < 9)
                                                 <label
                                                     for="product-image-34-upload"
                                                     class="group flex h-32 w-24 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-[#ee4d2d]/40 bg-white transition hover:border-[#ee4d2d] hover:bg-[#fff5f2]"
@@ -350,11 +350,11 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
                                                     </svg>
                                                     <span class="mt-1 text-[10px] text-[#ee4d2d] font-medium">Add 3:4</span>
-                                                    <span class="text-[10px] text-gray-400">({{ count($images34) }}/9)</span>
+                                                    <span class="text-[10px] text-gray-400">({{ count($enlargedImages) }}/9)</span>
                                                     <input
                                                         id="product-image-34-upload"
                                                         type="file"
-                                                        wire:model="images34"
+                                                        wire:model="enlargedImages"
                                                         accept="image/*"
                                                         multiple
                                                         class="hidden"
@@ -364,7 +364,7 @@
                                         </div>
 
                                         {{-- Upload loading indicator for 3:4 --}}
-                                        <div wire:loading wire:target="images34" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
+                                        <div wire:loading wire:target="enlargedImages" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
                                             <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
                                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
@@ -372,11 +372,39 @@
                                             Uploading...
                                         </div>
 
-                                        @error('images34.*')
+                                        @error('enlargedImages.*')
                                             <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
                                         @enderror
                                     </div>
                                 @endif
+                            </div>
+
+                            {{-- ──── Category ──── --}}
+                            <div>
+                                <label for="product-category" class="mb-2 block text-sm text-gray-700">
+                                    <span class="text-[#ee4d2d] mr-0.5">*</span> Category
+                                </label>
+                                <div class="relative">
+                                    <select
+                                        id="product-category"
+                                        wire:model="categoryId"
+                                        class="w-full rounded border border-gray-300 bg-white py-2.5 pl-3 pr-10 text-sm text-gray-900 outline-none transition focus:border-[#ee4d2d] appearance-none cursor-pointer"
+                                    >
+                                        <option value="">Select a Category</option>
+                                        @foreach($this->categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                @error('categoryId')
+                                    <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             {{-- ──── Product Name ──── --}}
@@ -516,7 +544,7 @@
             </div>
 
             {{-- Preview Card (shown when images are uploaded) --}}
-            @if(count($images) > 0)
+            @if(count($regularImages) > 0)
                 <div class="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
                     <div class="px-5 pt-5 pb-3">
                         <h3 class="text-sm font-semibold text-gray-800">Preview</h3>
@@ -527,12 +555,12 @@
                     <div class="px-5 pb-3">
                         <div class="rounded-lg border border-gray-100 overflow-hidden bg-gray-50 aspect-square relative">
                             <img
-                                src="{{ $images[0]->temporaryUrl() }}"
+                                src="{{ $regularImages[0]->temporaryUrl() }}"
                                 alt="Product preview"
                                 class="w-full h-full object-cover"
                             />
                             <div class="absolute bottom-2 right-2 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded">
-                                1/{{ count($images) }}
+                                1/{{ count($regularImages) }}
                             </div>
                         </div>
                     </div>

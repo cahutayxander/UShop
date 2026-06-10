@@ -26,6 +26,39 @@ class Product extends Model
         'total_sold',
     ];
 
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::deleting(function ($product) {
+
+    //         // Delete all related ProductImages
+    //         foreach ($product->productImages as $image) {
+    //             // Delete file from storage
+    //             if (Storage::disk('s3')->exists($image->regular_image_path)) {
+    //                 Storage::disk('s3')->delete($image->regular_image_path);
+    //             }
+
+    //             if ($image->enlarged_image_path && Storage::disk('s3')->exists($image->enlarged_image_path)) {
+    //                 Storage::disk('s3')->delete($image->enlarged_image_path);
+    //             }
+
+    //             // Delete the record
+    //             $image->delete();
+    //         }
+
+    //         // Delete all related ProductVariants
+    //         foreach ($product->productVariants as $variant) {
+    //             // Delete variant images if any
+    //             if ($variant->image_path && Storage::disk('s3')->exists($variant->image_path)) {
+    //                 Storage::disk('s3')->delete($variant->image_path);
+    //             }
+
+    //             $variant->delete();
+    //         }
+    //     });
+    // }
+
     /**
      * Get the attributes that should be cast.
      *

@@ -25,6 +25,7 @@ class ProductFactory extends Factory
             'name' => fake()->words(3, true),
             'description' => fake()->paragraph(),
             'total_sold' => fake()->numberBetween(0, 2500),
+            'use_wide_display' => fake()->boolean(20),
         ];
     }
 }

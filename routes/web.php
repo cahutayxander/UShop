@@ -22,7 +22,11 @@ Route::prefix('seller')->group(function() {
     Route::livewire('/welcome', addPrefix('seller.welcome'));
     Route::livewire('/onboarding', addPrefix('seller.onboarding'));
     Route::livewire('/dashboard', addPrefix('seller.dashboard'));
-    Route::livewire('/products/new', addPrefix('seller.add-product'));
+
+    Route::prefix('products')->group(function() {
+        Route::livewire('/', addPrefix('seller.product.list'));
+        Route::livewire('/new', addPrefix('seller.add-product'));
+    });
 });
 
 Route::prefix('buyer')->group(function() {

@@ -19,8 +19,7 @@ class ProductImageFactory extends Factory
     {
         return [
             'product_id' => \App\Models\Product::factory(),
-            'regular_image_path' => 'products/seller_1/' . fake()->uuid() . '.png',
-            'enlarged_image_path' => fake()->boolean(80) ? 'products/enlarged/seller_1/' . fake()->uuid() . '.png' : null,
+            'path' => 'products/seller_1/' . fake()->uuid() . '.png',
         ];
     }
 }

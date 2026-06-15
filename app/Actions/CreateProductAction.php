@@ -16,25 +16,28 @@ class CreateProductAction
             $storage = config('filesystems.default');
             $product = $this->productRepository->create($nonImageData);
 
+            // Create a default product variant
+            $product->productVariants()->create([
+                'regular_price' => $nonImageData['regular_price'],
+                'selling_price' => $nonImageData['regular_price'],
+                'quantity' => $nonImageData['quantity'],
+            ]);
+
             $sellerId = $nonImageData['product_seller_id'];
             $mainFolder = "products";
-            $regImgFolder = "$mainFolder/regular/$sellerId";
-            $enLargedImgFolder = "$mainFolder/enlarged/$sellerId";
 
-            foreach ($regularImages as $index => $image) {
-                // Store regular 1:1 image
-                $regularPath = $image->store($regImgFolder, $storage);
-                // Store enlarged 3:4 image if it exists for this index
-                $enlargedPath = null;
-                if (isset($enlargedImages[$index])) {
-                    $enlargedPath = $enlargedImages[$index]->store($enLargedImgFolder, $storage);
-                }
+            $useWideDisplay = $product->use_wide_display ?? false;
+            $imagesToStore = ($useWideDisplay && !empty($enlargedImages)) ? $enlargedImages : $regularImages;
+            $folderName = ($useWideDisplay && !empty($enlargedImages)) ? 'enlarged' : 'regular';
+            $imgFolder = "$mainFolder/$folderName/$sellerId";
+
+            foreach ($imagesToStore as $image) {
+                $path = $image->store($imgFolder, $storage);
 
                 // Create the ProductImage record
                 $product->productImages()
                     ->create([
-                        'regular_image_path' => $regularPath,
-                        'enlarged_image_path' => $enlargedPath,
+                        'path' => $path,
                     ]);
             }
         });

@@ -24,6 +24,7 @@ class Product extends Model
         'name',
         'description',
         'total_sold',
+        'use_wide_display',
     ];
 
     // protected static function boot()
@@ -35,14 +36,10 @@ class Product extends Model
     //         // Delete all related ProductImages
     //         foreach ($product->productImages as $image) {
     //             // Delete file from storage
-    //             if (Storage::disk('s3')->exists($image->regular_image_path)) {
-    //                 Storage::disk('s3')->delete($image->regular_image_path);
+    //             if (Storage::disk('s3')->exists($image->path)) {
+    //                 Storage::disk('s3')->delete($image->path);
     //             }
-
-    //             if ($image->enlarged_image_path && Storage::disk('s3')->exists($image->enlarged_image_path)) {
-    //                 Storage::disk('s3')->delete($image->enlarged_image_path);
-    //             }
-
+    // 
     //             // Delete the record
     //             $image->delete();
     //         }
@@ -68,6 +65,7 @@ class Product extends Model
     {
         return [
             'total_sold' => 'integer',
+            'use_wide_display' => 'boolean',
         ];
     }
 

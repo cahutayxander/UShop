@@ -27,6 +27,21 @@ new #[Layout('layouts.seller')] class extends Component
     #[Validate('max:30', message: 'Product name must be at most 30 characters')]
     public string $productName = '';
 
+    #[Validate('required', message: 'Regular price is required')]
+    #[Validate('numeric', message: 'Regular price must be a number')]
+    #[Validate('min:0', message: 'Regular price must be at least 0')]
+    public float $regularPrice = 0;
+
+    #[Validate('required', message: 'Selling price is required')]
+    #[Validate('numeric', message: 'Selling price must be a number')]
+    #[Validate('min:0', message: 'Selling price must be at least 0')]
+    public float $sellingPrice = 0;
+
+    #[Validate('required', message: 'Quantity is required')]
+    #[Validate('integer', message: 'Quantity must be an integer')]
+    #[Validate('min:0', message: 'Quantity must be at least 0')]
+    public int $quantity = 0;
+
     #[Validate('required', message: 'Description is required')]
     public string $description = '';
     public bool $use34Image = false;
@@ -71,9 +86,15 @@ new #[Layout('layouts.seller')] class extends Component
                 'product_seller_id' => auth()->user()->productSeller->id,
                 'name' => $this->productName,
                 'description' => $this->description,
+                'use_wide_display' => $this->use34Image,
+                'regular_price' => $this->regularPrice,
+                'selling_price' => $this->sellingPrice,
+                'quantity' => $this->quantity,
             ],
             $this->regularImages,
             $this->enlargedImages
         );
+
+        $this->redirect('/seller/products');
     }
 };

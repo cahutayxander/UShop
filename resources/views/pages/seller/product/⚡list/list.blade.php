@@ -2,7 +2,7 @@
 
     <div class="mx-auto max-w-[1320px] px-3 py-4 sm:px-4 lg:px-6">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-start">
-            {{-- Sidebar (static) --}}
+             {{-- Sidebar (static) --}}
             <aside class="w-full shrink-0 lg:w-[220px] lg:pt-1">
                 <div class="rounded-sm bg-white shadow-sm ring-1 ring-black/5">
                     <div class="border-b border-slate-100 px-3 py-3">
@@ -10,59 +10,15 @@
                     </div>
 
                     <div class="border-t border-slate-100 px-3 py-3">
-                        <p class="mb-2 text-xs font-bold uppercase tracking-wide text-slate-800">Search filter</p>
-
                         <div class="mb-4">
-                            <p class="mb-2 text-xs font-semibold text-slate-600">Shipped From</p>
                             <ul class="space-y-1.5 text-xs text-slate-700">
-                                @foreach (['Visayas', 'Domestic', 'Overseas', 'Metro Manila'] as $region)
+                                @foreach ($this->categories as $category)
                                     <li class="flex items-center gap-2">
-                                        <input id="ship-{{ $loop->index }}" type="checkbox" class="size-3.5 rounded border-slate-300 text-orange-500 focus:ring-orange-400">
-                                        <label for="ship-{{ $loop->index }}" class="cursor-pointer">{{ $region }}</label>
+                                        <input id="category-{{ $loop->index }}" type="checkbox" wire:model.live="categoryIds" value="{{ $category->id }}" class="size-3.5 rounded border-slate-300 text-orange-500 focus:ring-orange-400">
+                                        <label for="category-{{ $loop->index }}" class="cursor-pointer">{{ $category->name }}</label>
                                     </li>
                                 @endforeach
                             </ul>
-                            <button type="button" class="mt-1 text-xs text-slate-500 hover:text-orange-600">More ⌄</button>
-                        </div>
-
-                        <div class="mb-4">
-                            <p class="mb-2 text-xs font-semibold text-slate-600">Shops &amp; Promos</p>
-                            <button type="button" class="text-xs text-slate-500 hover:text-orange-600">More ⌄</button>
-                        </div>
-
-                        <div class="mb-4">
-                            <p class="mb-2 text-xs font-semibold text-slate-600">Brand</p>
-                            <ul class="space-y-1.5 text-xs text-slate-700">
-                                @foreach (['Huilishi', 'Inspi', 'KENTUCKY', 'Lifeline'] as $brand)
-                                    <li class="flex items-center gap-2">
-                                        <input id="brand-{{ $loop->index }}" type="checkbox" class="size-3.5 rounded border-slate-300 text-orange-500 focus:ring-orange-400">
-                                        <label for="brand-{{ $loop->index }}" class="cursor-pointer">{{ $brand }}</label>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <button type="button" class="mt-1 text-xs text-slate-500 hover:text-orange-600">More ⌄</button>
-                        </div>
-
-                        <div>
-                            <p class="mb-2 text-xs font-semibold text-slate-600">Price Range</p>
-                            <div class="flex items-center gap-2">
-                                <input
-                                    type="text"
-                                    inputmode="numeric"
-                                    placeholder="₱ MIN"
-                                    class="w-full rounded border border-slate-200 px-2 py-1.5 text-xs outline-none focus:border-orange-400"
-                                >
-                                <span class="text-slate-400">–</span>
-                                <input
-                                    type="text"
-                                    inputmode="numeric"
-                                    placeholder="₱ MAX"
-                                    class="w-full rounded border border-slate-200 px-2 py-1.5 text-xs outline-none focus:border-orange-400"
-                                >
-                            </div>
-                            <button type="button" class="mt-3 w-full rounded bg-orange-500 py-2 text-xs font-bold uppercase tracking-wide text-white shadow-sm hover:bg-orange-600">
-                                Apply
-                            </button>
                         </div>
                     </div>
                 </div>

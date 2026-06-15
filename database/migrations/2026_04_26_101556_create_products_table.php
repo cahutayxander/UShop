@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('description');
 
             $table->unsignedInteger('total_sold')->default(0);
+            $table->boolean('use_wide_display')->default(false);
             $table->timestamps();
         });
     }

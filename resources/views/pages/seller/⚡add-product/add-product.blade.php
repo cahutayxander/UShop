@@ -431,6 +431,79 @@
                                 @enderror
                             </div>
 
+                            {{-- ──── Price & Quantity ──── --}}
+                            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                {{-- Regular Price --}}
+                                <div>
+                                    <label for="product-price" class="mb-2 block text-sm text-gray-700">
+                                        <span class="text-[#ee4d2d] mr-0.5">*</span> Regular Price
+                                    </label>
+                                    <div class="relative rounded border border-gray-300 focus-within:border-[#ee4d2d] transition bg-white">
+                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-sm text-gray-500">
+                                            ₱
+                                        </span>
+                                        <input
+                                            id="product-price"
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            wire:model.live="regularPrice"
+                                            placeholder="0.00"
+                                            class="w-full rounded bg-transparent py-2.5 pl-8 pr-3 text-sm text-gray-900 outline-none placeholder:text-gray-400 border-none"
+                                        />
+                                    </div>
+                                    @error('regularPrice')
+                                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Quantity --}}
+                                <div>
+                                    <label for="product-quantity" class="mb-2 block text-sm text-gray-700">
+                                        <span class="text-[#ee4d2d] mr-0.5">*</span> Quantity / Stock
+                                    </label>
+                                    <div class="relative">
+                                        <input
+                                            id="product-quantity"
+                                            type="number"
+                                            min="0"
+                                            wire:model.live="quantity"
+                                            placeholder="Enter stock quantity"
+                                            class="w-full rounded border border-gray-300 bg-white py-2.5 px-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#ee4d2d]"
+                                        />
+                                    </div>
+                                    @error('quantity')
+                                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                {{-- Selling Price --}}
+                                <div>
+                                    <label for="product-price" class="mb-2 block text-sm text-gray-700">
+                                        Selling Price <span class="text-xs text-gray-500">(if left empty, it will be the same as the regular price)</span>
+                                    </label>
+                                    <div class="relative rounded border border-gray-300 focus-within:border-[#ee4d2d] transition bg-white">
+                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-sm text-gray-500">
+                                            ₱
+                                        </span>
+                                        <input
+                                            id="product-price"
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            wire:model.live="sellingPrice"
+                                            placeholder="0.00"
+                                            class="w-full rounded bg-transparent py-2.5 pl-8 pr-3 text-sm text-gray-900 outline-none placeholder:text-gray-400 border-none"
+                                        />
+                                    </div>
+                                    @error('sellingPrice')
+                                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
                             {{-- ──── Product Description ──── --}}
                             <div>
                                 <label for="product-description" class="mb-2 block text-sm text-gray-700">

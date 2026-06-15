@@ -2,15 +2,19 @@
 
 use Livewire\Component;
 use App\Models\Category;
+use App\Models\ProductVariant;
 use App\Interfaces\CategoryInterface;
 use App\Interfaces\ProductInterface;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Illuminate\Database\Eloquent\Collection;
 
-new class extends Component
+new #[Layout('layouts.seller')] class extends Component
 {
     protected CategoryInterface $categoryRepository;
     protected ProductInterface $productRepository;
-    public Category $category;          
+
+    public $categoryIds = [];
 
     public function boot(
         CategoryInterface $categoryRepository, 
@@ -19,11 +23,6 @@ new class extends Component
         $this->categoryRepository = $categoryRepository;
         $this->productRepository = $productRepository;
     }
-
-    public function mount(Category $category)
-    {
-        $this->category = $category;
-    } 
 
     #[Computed]
     public function categories()
@@ -36,6 +35,6 @@ new class extends Component
     {
         return $this
             ->productRepository
-            ->productsByCategory([$this->category->id]);
+            ->productsByCategory($this->categoryIds);
     }
 };

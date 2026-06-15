@@ -122,7 +122,7 @@
                                 <label class="flex items-start gap-2.5 cursor-pointer">
                                     <input
                                         type="checkbox"
-                                        wire:model.live="use34Image"
+                                        wire:model.live="useWideDisplay"
                                         class="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#ee4d2d] accent-[#ee4d2d]"
                                     />
                                     <span class="text-sm text-gray-600 leading-relaxed">
@@ -133,7 +133,7 @@
                                 </label>
 
                                 {{-- 3:4 Image Upload Area (shown when checkbox is ticked) --}}
-                                @if($use34Image)
+                                @if($useWideDisplay)
                                     <div class="mt-5 rounded-lg border border-dashed border-[#ee4d2d]/40 bg-[#fff8f6] p-5 transition-all"
                                         x-data
                                         x-transition:enter="transition ease-out duration-200"
@@ -308,73 +308,6 @@
                                             </div>
                                         </div>
 
-                                        {{-- 3:4 Upload grid --}}
-                                        <p class="text-sm text-gray-700 mb-3 font-medium">
-                                            <span class="text-[#ee4d2d] mr-0.5">*</span> 3:4 Images
-                                        </p>
-                                        <div class="flex flex-wrap gap-3">
-                                            {{-- Uploaded 3:4 image previews --}}
-                                            @foreach($enlargedImages as $index => $image34)
-                                                <div class="relative group h-32 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
-                                                    <img
-                                                        src="{{ $image34->temporaryUrl() }}"
-                                                        alt="3:4 Product image {{ $index + 1 }}"
-                                                        class="h-full w-full object-cover"
-                                                    />
-                                                    {{-- Cover badge on first 3:4 image --}}
-                                                    @if($index === 0)
-                                                        <div class="absolute bottom-0 inset-x-0 bg-[#ee4d2d] py-0.5 text-center">
-                                                            <span class="text-[10px] font-semibold text-white tracking-wide">★ Cover</span>
-                                                        </div>
-                                                    @endif
-                                                    <button
-                                                        type="button"
-                                                        wire:click="removeImage34({{ $index }})"
-                                                        class="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 cursor-pointer"
-                                                        aria-label="Remove 3:4 image"
-                                                    >
-                                                        <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            @endforeach
-
-                                            {{-- 3:4 Upload button --}}
-                                            @if(count($enlargedImages) < 9)
-                                                <label
-                                                    for="product-image-34-upload"
-                                                    class="group flex h-32 w-24 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-[#ee4d2d]/40 bg-white transition hover:border-[#ee4d2d] hover:bg-[#fff5f2]"
-                                                >
-                                                    <svg class="h-7 w-7 text-[#ee4d2d] transition group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
-                                                    </svg>
-                                                    <span class="mt-1 text-[10px] text-[#ee4d2d] font-medium">Add 3:4</span>
-                                                    <span class="text-[10px] text-gray-400">({{ count($enlargedImages) }}/9)</span>
-                                                    <input
-                                                        id="product-image-34-upload"
-                                                        type="file"
-                                                        wire:model="enlargedImages"
-                                                        accept="image/*"
-                                                        multiple
-                                                        class="hidden"
-                                                    />
-                                                </label>
-                                            @endif
-                                        </div>
-
-                                        {{-- Upload loading indicator for 3:4 --}}
-                                        <div wire:loading wire:target="enlargedImages" class="mt-2 flex items-center gap-2 text-xs text-[#ee4d2d]">
-                                            <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                                            </svg>
-                                            Uploading...
-                                        </div>
-
-                                        @error('enlargedImages.*')
-                                            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
-                                        @enderror
                                     </div>
                                 @endif
                             </div>

@@ -20,8 +20,6 @@ new #[Layout('layouts.seller')] class extends Component
     #[Validate(['regularImages.*' => 'image|max:5120'], message: ['regularImages.*' => 'Each image must be a valid image file (max 5MB)'])]
     public array $regularImages = [];
 
-    public array $enlargedImages = [];
-
     #[Validate('required', message: 'Product name is required')]
     #[Validate('min:5', message: 'Product name must be at least 5 characters')]
     #[Validate('max:30', message: 'Product name must be at most 30 characters')]
@@ -44,7 +42,7 @@ new #[Layout('layouts.seller')] class extends Component
 
     #[Validate('required', message: 'Description is required')]
     public string $description = '';
-    public bool $use34Image = false;
+    public bool $useWideDisplay = false;
 
     public function boot(CreateProductAction $createProductAction, CategoryInterface $categoryRepository)
     {
@@ -66,8 +64,8 @@ new #[Layout('layouts.seller')] class extends Component
 
     public function removeImage34(int $index): void
     {
-        $removed = array_splice($this->enlargedImages, $index, 1);
-        $this->enlargedImages = array_values($this->enlargedImages);
+        $removed = array_splice($this->wideImages, $index, 1);
+        $this->wideImages = array_values($this->wideImages);
     }
 
     public function addProduct()
@@ -86,13 +84,12 @@ new #[Layout('layouts.seller')] class extends Component
                 'product_seller_id' => auth()->user()->productSeller->id,
                 'name' => $this->productName,
                 'description' => $this->description,
-                'use_wide_display' => $this->use34Image,
+                'use_wide_display' => $this->useWideDisplay,
                 'regular_price' => $this->regularPrice,
                 'selling_price' => $this->sellingPrice,
                 'quantity' => $this->quantity,
             ],
-            $this->regularImages,
-            $this->enlargedImages
+            $this->regularImages
         );
 
         $this->redirect('/seller/products');

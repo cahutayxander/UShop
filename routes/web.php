@@ -25,7 +25,7 @@ Route::prefix('seller')->group(function() {
 
     Route::prefix('products')->group(function() {
         Route::livewire('/', addPrefix('seller.product.list'));
-        Route::livewire('/new', addPrefix('seller.add-product'));
+        Route::livewire('/new', addPrefix('seller.product.add'));
     });
 });
 

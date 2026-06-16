@@ -5,7 +5,7 @@
         <div class="mx-auto flex items-center gap-2 py-3 text-sm text-gray-500 max-w-7xl">
             <a href="#" class="hover:text-[#ee4d2d] transition">Home</a>
             <svg class="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-            <a href="#" class="hover:text-[#ee4d2d] transition">My Products</a>
+            <a href="/seller/products" class="hover:text-[#ee4d2d] transition">My Products</a>
             <svg class="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             <span class="font-semibold text-gray-900">Add a New Product</span>
         </div>

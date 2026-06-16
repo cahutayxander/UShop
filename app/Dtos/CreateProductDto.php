@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Dtos;
+
 class CreateProductDto
 {
     public function __construct(
@@ -9,8 +11,8 @@ class CreateProductDto
         public string $description,
         public bool $useWideDisplay,
         public float $regularPrice,
-        public int $quantity,
         public ?float $sellingPrice,
+        public int $quantity,
     ) {}
 
     public static function fromArray(array $data): self

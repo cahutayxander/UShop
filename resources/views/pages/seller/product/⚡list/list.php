@@ -31,10 +31,10 @@ new #[Layout('layouts.seller')] class extends Component
     }
 
     #[Computed]
-    public function productsByCategory()
+    public function sellerProductsByCategory()
     {
         return $this
             ->productRepository
-            ->productsByCategory($this->categoryIds);
+            ->sellerProductsByCategory(auth()->user()->productSeller->id, $this->categoryIds);
     }
 };

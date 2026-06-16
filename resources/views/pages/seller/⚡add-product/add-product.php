@@ -7,6 +7,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Attributes\Computed;
 use App\Actions\CreateProductAction;
 use App\Interfaces\CategoryInterface;
+use App\Dtos\CreateProductDto;
 
 new #[Layout('layouts.seller')] class extends Component
 {
@@ -79,16 +80,16 @@ new #[Layout('layouts.seller')] class extends Component
         }
 
         $this->createProductAction->handle(
-            [
-                'category_id' => $this->categoryId,
-                'product_seller_id' => auth()->user()->productSeller->id,
-                'name' => $this->productName,
-                'description' => $this->description,
-                'use_wide_display' => $this->useWideDisplay,
-                'regular_price' => $this->regularPrice,
-                'selling_price' => $this->sellingPrice,
-                'quantity' => $this->quantity,
-            ],
+            new CreateProductDto(
+                $this->categoryId,
+                auth()->user()->productSeller->id,
+                $this->productName,
+                $this->description,
+                $this->useWideDisplay,
+                $this->regularPrice,
+                $this->sellingPrice,
+                $this->quantity,
+            ),
             $this->regularImages
         );
 

@@ -5,5 +5,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductInterface extends BaseInterface
 {
-    public function productsByCategory(array $categoryIds, int $perPage = 15, string $sortBy, string $sortOrder): LengthAwarePaginator;
+    public function sellerProductsByCategory(int $sellerId, array $categoryIds, int $perPage = 15, string $sortBy, string $sortOrder): LengthAwarePaginator;
+
+    public function productsByCategory(int $categoryIds, int $perPage = 15, string $sortBy, string $sortOrder): LengthAwarePaginator;
 }

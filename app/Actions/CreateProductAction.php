@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Interfaces\ProductInterface;
 use Illuminate\Support\Facades\DB;
 use App\Actions\CreateProductVariantAction;
+use App\Dtos\CreateProductDto;
 
 class CreateProductAction
 {
@@ -19,22 +20,19 @@ class CreateProductAction
     public function handle(CreateProductDto $productDto, array $images)
     {
         return DB::transaction(function () use ($productDto, $images) {
-
             $product = $this->productRepository->create($productDto->toArray());
 
+
             // Create a default product variant
-            $this->createProductVariantAction->handle(
+            $variant = $this->createProductVariantAction->handle(
                 $product,
                 $productDto->regularPrice,
                 $productDto->sellingPrice,
                 $productDto->quantity
             );
-
-            $sellerId = $productDto->productSellerId;
-            $imgFolder = "products/$sellerId";
-
+            
             foreach ($images as $image) {
-                $path = $image->store($imgFolder);
+                $path = $image->store("products/$productDto->productSellerId");
 
                 // Create the ProductImage record
                 $product->productImages()

@@ -36,6 +36,6 @@ new class extends Component
     {
         return $this
             ->productRepository
-            ->productsByCategory([$this->category->id]);
+            ->productsByCategory($this->category->id);
     }
 };

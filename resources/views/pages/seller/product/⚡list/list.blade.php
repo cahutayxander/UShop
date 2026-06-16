@@ -53,11 +53,11 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                    @foreach ($this->productsByCategory as $product)
+                    @foreach ($this->sellerProductsByCategory as $product)
                         <livewire:product.list :product="$product" />
                     @endforeach
 
-                {{ $this->productsByCategory->links() }}
+                {{ $this->sellerProductsByCategory->links() }}
                 </div>
             </div>
         </div>

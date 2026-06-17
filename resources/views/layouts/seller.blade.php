@@ -47,11 +47,13 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                             </svg>
                         </div>
-                        <span class="text-sm text-gray-700 group-hover:text-[#ee4d2d] transition-colors hidden md:block">{{ auth()->user()->name ?? 'Seller' }}</span>
+                        <span class="text-sm text-gray-700 group-hover:text-[#ee4d2d] transition-colors hidden md:block">{{ auth()->user()->email ?? 'Seller' }}</span>
                         <svg class="h-3.5 w-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </div>
+
+                     <livewire:account.auth-header />
                 </div>
             </header>
 

@@ -132,14 +132,62 @@
                                     </span>
                                 </label>
 
-                                {{-- 3:4 Image Upload Area (shown when checkbox is ticked) --}}
-                                @if($useWideDisplay)
-                                    <div class="mt-5 rounded-lg border border-dashed border-[#ee4d2d]/40 bg-[#fff8f6] p-5 transition-all"
-                                        x-data
+                                {{-- 3:4 Image Info Dialog (shown when checkbox is ticked) --}}
+                                <div
+                                    x-data="{
+                                        dialogOpen: false,
+                                        init() {
+                                            $watch(() => $wire.useWideDisplay, val => {
+                                                if (val) this.dialogOpen = true;
+                                            });
+                                        }
+                                    }"
+                                    x-show="dialogOpen"
+                                    x-cloak
+                                    class="fixed inset-0 z-50 flex items-center justify-center"
+                                    role="dialog"
+                                    aria-modal="true"
+                                    aria-labelledby="wide-display-dialog-title"
+                                >
+                                    {{-- Backdrop --}}
+                                    <div
+                                        class="absolute inset-0 bg-black/50 backdrop-blur-sm"
                                         x-transition:enter="transition ease-out duration-200"
-                                        x-transition:enter-start="opacity-0 -translate-y-2"
-                                        x-transition:enter-end="opacity-100 translate-y-0"
+                                        x-transition:enter-start="opacity-0"
+                                        x-transition:enter-end="opacity-100"
+                                        x-transition:leave="transition ease-in duration-150"
+                                        x-transition:leave-start="opacity-100"
+                                        x-transition:leave-end="opacity-0"
+                                        @click="dialogOpen = false"
+                                    ></div>
+
+                                    {{-- Dialog panel --}}
+                                    <div
+                                        class="relative z-10 w-full max-w-lg mx-4 rounded-2xl bg-white shadow-2xl overflow-hidden"
+                                        x-transition:enter="transition ease-out duration-200"
+                                        x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+                                        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                        x-transition:leave="transition ease-in duration-150"
+                                        x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                                        x-transition:leave-end="opacity-0 scale-95 translate-y-4"
                                     >
+                                        {{-- Dialog header --}}
+                                        <div class="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+                                            <h3 id="wide-display-dialog-title" class="text-base font-semibold text-gray-900">1:1 Image vs. 3:4 Image</h3>
+                                            <button
+                                                type="button"
+                                                @click="dialogOpen = false"
+                                                class="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition cursor-pointer"
+                                                aria-label="Close dialog"
+                                            >
+                                                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        {{-- Dialog body --}}
+                                        <div class="px-6 py-5">
                                         {{-- Reference visual: 1:1 vs 3:4 comparison --}}
                                         <div class="mb-5 rounded-lg bg-white border border-gray-100 p-5">
                                             <h4 class="text-sm font-semibold text-gray-800 mb-1">1:1 Image vs. 3:4 Image</h4>
@@ -307,9 +355,21 @@
 
                                             </div>
                                         </div>
+                                        </div>
+                                        {{-- end dialog body --}}
 
+                                        {{-- Dialog footer --}}
+                                        <div class="flex justify-end gap-3 border-t border-gray-100 bg-[#fafafa] px-6 py-4">
+                                            <button
+                                                type="button"
+                                                @click="dialogOpen = false"
+                                                class="rounded-lg border border-gray-300 bg-white px-5 py-2 text-sm text-gray-700 transition hover:bg-gray-50 cursor-pointer"
+                                            >
+                                                Close
+                                            </button>
+                                        </div>
                                     </div>
-                                @endif
+                                </div>
                             </div>
 
                             {{-- ──── Category ──── --}}

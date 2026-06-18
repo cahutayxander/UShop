@@ -88,13 +88,13 @@
                         </button>
                     </div>
                     <nav class="px-2 mb-3">
-                        <a href="#" class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">My Products</a>
-                        <a href="#" class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">Add New Product</a>
+                        <a href="/seller/products" wire:navigate class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">My Products</a>
+                        <a href="/seller/products/add" wire:navigate class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">Add New Product</a>
                         <a href="#" class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">Shopee Standard Product</a>
                         <a href="#" class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">AI Optimiser</a>
                     </nav>
 
-                    {{-- FBS Section --}}
+                    <!-- {{-- FBS Section --}}
                     <div class="px-4 mb-1">
                         <button class="flex items-center justify-between w-full text-xs font-semibold text-gray-500 uppercase tracking-wider py-2 hover:text-gray-700 transition-colors" aria-label="Toggle FBS section">
                             <span>FBS</span>
@@ -124,7 +124,7 @@
                         <a href="#" class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">Discount</a>
                         <a href="#" class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">My Shop's Flash Deals</a>
                         <a href="#" class="block px-3 py-1.5 text-[13px] text-gray-600 hover:text-[#ee4d2d] hover:bg-[#fff5f2] rounded transition-colors">Vouchers</a>
-                    </nav>
+                    </nav> -->
                 </aside>
 
                 {{-- Main Content Area --}}

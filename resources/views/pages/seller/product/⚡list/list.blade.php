@@ -28,7 +28,7 @@
             <div class="min-w-0 flex-1">
                 <div class="flex justify-end my-2">
                     <a
-                        href="/seller/products/new"
+                        href="/seller/products/add"
                         wire:navigate
                         class="inline-flex items-center gap-2 rounded border border-orange-400/60 bg-orange-500/15 px-4 py-2 text-sm font-medium uppercase tracking-wide text-orange-600 backdrop-blur-sm transition-all hover:bg-orange-500/25 hover:border-orange-500 hover:text-orange-700">
                         <svg class="size-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">

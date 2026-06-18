@@ -1,5 +1,5 @@
 <div>
-    <a href="/category/{{ $product->category_id }}/{{ $product->id }}" wire:navigate/>
+    <a href="{{ $this->linkToRedirect }}" wire:navigate/>
         <article class="group flex flex-col overflow-hidden rounded-sm bg-white shadow-sm ring-1 ring-black/[0.06] transition hover:-translate-y-0.5 hover:shadow-md">
             <div class="relative aspect-square overflow-hidden bg-slate-200">
                 <img

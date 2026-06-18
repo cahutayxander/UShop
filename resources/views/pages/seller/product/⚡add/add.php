@@ -51,6 +51,11 @@ new #[Layout('layouts.seller')] class extends Component
         $this->categoryRepository = $categoryRepository;
     }
 
+    public function mount()
+    {
+        
+    }
+
     #[Computed]
     public function categories()
     {

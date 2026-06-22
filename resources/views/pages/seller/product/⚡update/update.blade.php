@@ -1,3 +1,3 @@
 <div>
-    <livewire:seller.product.add />
+    <livewire:account.seller.product-form formTitle="Update Product" />
 </div>

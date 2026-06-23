@@ -7,7 +7,8 @@ use Livewire\Attributes\Validate;
 use Livewire\Attributes\Computed;
 use App\Actions\CreateProductAction;
 use App\Interfaces\CategoryInterface;
-use App\Dtos\CreateProductDto;
+use App\Dtos\CreateUpdateProductDto;
+use App\Models\Product;
 
 new #[Layout('layouts.seller')] class extends Component
 {
@@ -46,6 +47,9 @@ new #[Layout('layouts.seller')] class extends Component
     #[Validate('required', message: 'Description is required')]
     public string $description = '';
     public bool $useWideDisplay = false;
+    public bool $isUpdate = false;
+    public ?int $productId = null;
+    public array $existingImages = [];
 
     public function boot(CreateProductAction $createProductAction, CategoryInterface $categoryRepository)
     {
@@ -53,9 +57,27 @@ new #[Layout('layouts.seller')] class extends Component
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function mount(string $formTitle)
+    public function mount(string $formTitle, ?Product $product = null)
     {
         $this->formTitle = $formTitle;
+        $this->isUpdate = request()->is('*/update');
+
+        if ($this->isUpdate && $product) {
+            $this->productId = $product->id;
+            $this->categoryId = $product->category_id;
+            $this->productName = $product->name;
+            $this->description = $product->description;
+            $this->useWideDisplay = $product->use_wide_display;
+
+            $variant = $product->productVariants()->first();
+            if ($variant) {
+                $this->regularPrice = $variant->regular_price;
+                $this->sellingPrice = $variant->selling_price;
+                $this->quantity = $variant->quantity;
+            }
+
+            $this->existingImages = $product->productImages()->get()->toArray();
+        }
     }
 
     #[Computed]
@@ -76,29 +98,38 @@ new #[Layout('layouts.seller')] class extends Component
         $this->wideImages = array_values($this->wideImages);
     }
 
+    public function removeExistingImage(int $index): void
+    {
+        array_splice($this->existingImages, $index, 1);
+        $this->existingImages = array_values($this->existingImages);
+    }
+
     public function addProduct()
     {
         // ── 1. Run full field validation (name, code, description, images) ──
         $this->validate();
 
-        if (empty($this->regularImages)) {
-            $this->addError('regularImages', 'At least 1 image must be uploaded.');
+        if (empty($this->regularImages) && empty($this->existingImages)) {
+            $this->addError('regularImages', 'At least 1 image must be present.');
             return;
         }
 
-        $this->createProductAction->handle(
-            new CreateProductDto(
-                $this->categoryId,
-                auth()->user()->productSeller->id,
-                $this->productName,
-                $this->description,
-                $this->useWideDisplay,
-                $this->regularPrice,
-                $this->sellingPrice,
-                $this->quantity,
-            ),
-            $this->regularImages
+        $payload = new CreateUpdateProductDto(
+            $this->categoryId,
+            auth()->user()->productSeller->id,
+            $this->productName,
+            $this->description,
+            $this->useWideDisplay,
+            $this->regularPrice,
+            $this->sellingPrice,
+            $this->quantity,
         );
+
+        $this->isUpdate ?
+            $this->dispatch('updateProduct', productId: $this->productId, payload: $payload->toArray(), existingImages: array_column($this->existingImages, 'id'), images: $this->regularImages) :
+            $this->dispatch('createProduct', payload: $payload->toArray(), images: $this->regularImages);
+
+        session()->flash('success', 'Product ' . ($this->isUpdate ? 'updated' : 'created') . ' successfully!');
 
         $this->redirect('/seller/products');
     }

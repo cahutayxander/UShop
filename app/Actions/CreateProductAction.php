@@ -16,7 +16,6 @@ class CreateProductAction
         $this->createProductVariantAction = $createProductVariantAction;
     }
 
-    // public function handle(array $nonImageData, array $regularImages = [], array $enlargedImages = [])
     public function handle(CreateProductDto $productDto, array $images)
     {
         return DB::transaction(function () use ($productDto, $images) {

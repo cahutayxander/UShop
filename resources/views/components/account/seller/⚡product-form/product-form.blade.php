@@ -39,18 +39,49 @@
 
                                     {{-- Upload grid --}}
                                     <div class="flex flex-wrap gap-3">
-                                        {{-- Uploaded image previews --}}
-                                        @foreach($regularImages as $index => $image)
+                                        {{-- Existing image previews --}}
+                                        @foreach($existingImages as $index => $image)
                                             <div class="relative group h-24 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
                                                 {{-- Image preview --}}
                                                 <img
-                                                    src="{{ $image->temporaryUrl() }}"
+                                                    src="{{ Storage::url($image['path']) }}"
                                                     alt="Product image {{ $index + 1 }}"
                                                     class="h-full w-full object-cover"
                                                 />
 
                                                 {{-- Cover badge on first image --}}
                                                 @if($index === 0)
+                                                    <div class="absolute bottom-0 inset-x-0 bg-[#ee4d2d] py-0.5 text-center">
+                                                        <span class="text-[10px] font-semibold text-white tracking-wide">★ Cover</span>
+                                                    </div>
+                                                @endif
+
+                                                {{-- Remove button (on hover) --}}
+                                                <button
+                                                    type="button"
+                                                    wire:click="removeExistingImage({{ $index }})"
+                                                    class="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 cursor-pointer"
+                                                    aria-label="Remove image"
+                                                >
+                                                    <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        @endforeach
+
+                                        {{-- Uploaded image previews --}}
+                                        @foreach($regularImages as $index => $image)
+                                            <div class="relative group h-24 w-24 rounded border border-gray-200 bg-gray-50 overflow-hidden shadow-sm">
+                                                {{-- Image preview --}}
+                                                <img
+                                                    src="{{ $image->temporaryUrl() }}"
+                                                    alt="Uploaded image {{ $index + 1 }}"
+                                                    class="h-full w-full object-cover"
+                                                />
+
+                                                {{-- Cover badge on first image if no existing images --}}
+                                                @if($index === 0 && count($existingImages) === 0)
                                                     <div class="absolute bottom-0 inset-x-0 bg-[#ee4d2d] py-0.5 text-center">
                                                         <span class="text-[10px] font-semibold text-white tracking-wide">★ Cover</span>
                                                     </div>
@@ -71,7 +102,7 @@
                                         @endforeach
 
                                         {{-- Upload button (show if under 9 images) --}}
-                                        @if(count($regularImages) < 9)
+                                        @if((count($regularImages) + count($existingImages)) < 9)
                                             <label
                                                 for="product-image-upload"
                                                 class="group flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white transition hover:border-[#ee4d2d] hover:bg-[#fff8f6]"
@@ -80,7 +111,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
                                                 </svg>
                                                 <span class="mt-1 text-[10px] text-[#ee4d2d] font-medium">Add Image</span>
-                                                <span class="text-[10px] text-gray-400">({{ count($regularImages) }}/9)</span>
+                                                <span class="text-[10px] text-gray-400">({{ count($regularImages) + count($existingImages) }}/9)</span>
                                                 <input
                                                     id="product-image-upload"
                                                     type="file"
@@ -684,5 +715,17 @@
             @endif
         </aside>
 
+        {{-- session flash message --}}
+        @if (session()->has('success'))
+            <div class="mb-4 px-4 py-2 bg-green-100 text-green-700 border border-green-200 rounded-lg">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session()->has('error'))
+            <div class="mb-4 px-4 py-2 bg-red-100 text-red-700 border border-red-200 rounded-lg">
+                {{ session('error') }}
+            </div>
+        @endif
     </div>
 </div>

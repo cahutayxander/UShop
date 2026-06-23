@@ -2,7 +2,7 @@
 
 namespace App\Dtos;
 
-class CreateProductDto
+class CreateUpdateProductDto
 {
     public function __construct(
         public int $categoryId,

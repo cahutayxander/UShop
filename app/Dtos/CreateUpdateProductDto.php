@@ -15,34 +15,6 @@ class CreateUpdateProductDto
         public int $quantity,
     ) {}
 
-    // public function toLivewire(): array
-    // {
-    //     return [
-    //         'categoryId' => $this->categoryId,
-    //         'productSellerId' => $this->productSellerId,
-    //         'name' => $this->name,
-    //         'description' => $this->description,
-    //         'useWideDisplay' => $this->useWideDisplay,
-    //         'regularPrice' => $this->regularPrice,
-    //         'sellingPrice' => $this->sellingPrice,
-    //         'quantity' => $this->quantity,
-    //     ];
-    // }
-
-    // public static function fromLivewire($value): self
-    // {
-    //     return new static(
-    //         categoryId: $value['categoryId'],
-    //         productSellerId: $value['productSellerId'],
-    //         name: $value['name'],
-    //         description: $value['description'],
-    //         useWideDisplay: $value['useWideDisplay'],
-    //         regularPrice: $value['regularPrice'],
-    //         sellingPrice: $value['sellingPrice'],
-    //         quantity: $value['quantity'],
-    //     );
-    // }
-
     public static function fromArray(array $data): self
     {
         return new self(

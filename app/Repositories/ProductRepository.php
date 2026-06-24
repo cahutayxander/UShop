@@ -21,7 +21,10 @@ class ProductRepository extends BaseRepository implements ProductInterface
                 return $query->whereIn('category_id', $categoryIds);
             })
             ->orderBy($sortBy, $sortOrder)
-            ->with('productVariants', fn ($query) => $query->orderBy('selling_price'))
+            ->with([
+                'productVariants' => fn ($query) => $query->orderBy('selling_price'),
+                'productImages',
+            ])
             ->paginate($perPage);
     }
 
@@ -30,7 +33,10 @@ class ProductRepository extends BaseRepository implements ProductInterface
         return $this->model->newQuery()
             ->where('category_id', $categoryId)
             ->orderBy($sortBy, $sortOrder)
-            ->with('productVariants', fn ($query) => $query->orderBy('selling_price'))
+            ->with([
+                'productVariants' => fn ($query) => $query->orderBy('selling_price'),
+                'productImages',
+            ])
             ->paginate($perPage);
     }
 }

@@ -31,7 +31,7 @@ class CreateProductAction
             );
             
             foreach ($images as $image) {
-                $path = $image->store("products/$productDto->productSellerId");
+                $path = $image->store("products/{$productDto->productSellerId}", 'public');
 
                 // Create the ProductImage record
                 $product->productImages()

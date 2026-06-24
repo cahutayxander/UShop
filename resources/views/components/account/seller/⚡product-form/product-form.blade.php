@@ -715,18 +715,5 @@
                 </div>
             @endif
         </aside>
-
-        {{-- session flash message --}}
-        @if (session()->has('success'))
-            <div class="mb-4 px-4 py-2 bg-green-100 text-green-700 border border-green-200 rounded-lg">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session()->has('error'))
-            <div class="mb-4 px-4 py-2 bg-red-100 text-red-700 border border-red-200 rounded-lg">
-                {{ session('error') }}
-            </div>
-        @endif
     </div>
 </div>

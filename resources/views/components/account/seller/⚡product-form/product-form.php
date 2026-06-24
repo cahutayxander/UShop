@@ -6,6 +6,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Computed;
 use App\Actions\CreateProductAction;
+use App\Actions\UpdateProductAction;
 use App\Interfaces\CategoryInterface;
 use App\Dtos\CreateUpdateProductDto;
 use App\Models\Product;
@@ -14,6 +15,7 @@ new #[Layout('layouts.seller')] class extends Component
 {
     use WithFileUploads;
     protected CreateProductAction $createProductAction;
+    protected UpdateProductAction $updateProductAction;
     protected CategoryInterface $categoryRepository;
 
     public string $formTitle;
@@ -51,9 +53,13 @@ new #[Layout('layouts.seller')] class extends Component
     public ?int $productId = null;
     public array $existingImages = [];
 
-    public function boot(CreateProductAction $createProductAction, CategoryInterface $categoryRepository)
-    {
+    public function boot(
+        CreateProductAction $createProductAction,
+        UpdateProductAction $updateProductAction,
+        CategoryInterface $categoryRepository,
+    ) {
         $this->createProductAction = $createProductAction;
+        $this->updateProductAction = $updateProductAction;
         $this->categoryRepository = $categoryRepository;
     }
 
@@ -134,12 +140,22 @@ new #[Layout('layouts.seller')] class extends Component
             $this->quantity,
         );
 
-        $this->isUpdate ?
-            $this->dispatch('updateProduct', productId: $this->productId, payload: $payload, existingImages: array_column($this->existingImages, 'id'), images: $this->regularImages) :
-            $this->dispatch('createProduct', payload: $payload, images: $this->regularImages);
+        try {
+            if ($this->isUpdate) {
+                $this->updateProductAction->handle(
+                    $this->productId,
+                    $payload,
+                    array_column($this->existingImages, 'id'),
+                    $this->regularImages,
+                );
+            } else {
+                $this->createProductAction->handle($payload, $this->regularImages);
+            }
 
-        session()->flash('success', 'Product ' . ($this->isUpdate ? 'updated' : 'created') . ' successfully!');
-
-        $this->redirect('/seller/products');
+            session()->flash('success', 'Product ' . ($this->isUpdate ? 'updated' : 'created') . ' successfully!');
+            $this->redirect('/seller/products', navigate: false);
+        } catch (\Throwable) {
+            $this->addError('productName', 'Failed to save product. Please try again.');
+        }
     }
 };

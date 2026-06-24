@@ -1,13 +1,21 @@
 <div>
-    <a href="{{ $this->linkToRedirect }}" wire:navigate/>
+    @php
+        $coverImage = $product->productImages->first();
+    @endphp
+
+    <a href="{{ $this->linkToRedirect }}" wire:navigate>
         <article class="group flex flex-col overflow-hidden rounded-sm bg-white shadow-sm ring-1 ring-black/[0.06] transition hover:-translate-y-0.5 hover:shadow-md">
             <div class="relative aspect-square overflow-hidden bg-slate-200">
-                <img
-                    src="https://picsum.photos/id/{{ 30  }}/400/400"
-                    alt=""
-                    class="size-full object-cover transition duration-300 group-hover:scale-105"
-                    loading="lazy"
-                >
+                @if ($coverImage)
+                    <img
+                        src="{{ Storage::url($coverImage->path) }}"
+                        alt="{{ $product->name }}"
+                        class="size-full object-cover transition duration-300 group-hover:scale-105"
+                        loading="lazy"
+                    >
+                @else
+                    <div class="flex size-full items-center justify-center text-xs text-slate-400">No image</div>
+                @endif
                 @if ($product->discount)
                     <span class="absolute right-0 top-0 bg-[#ee4d2d] px-1.5 py-0.5 text-[11px] font-bold text-white">-{{ $product->discount }}%</span>
                 @endif

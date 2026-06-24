@@ -26,6 +26,18 @@
 
             {{-- Main grid (static) --}}
             <div class="min-w-0 flex-1">
+                @if (session()->has('success'))
+                    <div class="mb-4 rounded-lg border border-green-200 bg-green-100 px-4 py-2 text-green-700">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session()->has('error'))
+                    <div class="mb-4 rounded-lg border border-red-200 bg-red-100 px-4 py-2 text-red-700">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <div class="flex justify-end my-2">
                     <a
                         href="/seller/products/add"

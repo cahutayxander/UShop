@@ -23,11 +23,11 @@ new #[Layout('layouts.seller')] class extends Component
     }
 
     #[On('updateProduct')]
-    public function handleProductUpdate(int $productId, CreateUpdateProductDto $payload, array $existingImages, array $images): void
+    public function handleProductUpdate(int $productId, array $payload, array $existingImages, array $images): void
     {
         $this->updateProductAction->handle(
             $productId,
-            $payload,
+            CreateUpdateProductDto::fromArray($payload),
             $existingImages,
             $images
         );

@@ -5,7 +5,7 @@ namespace App\Actions;
 use App\Interfaces\ProductInterface;
 use Illuminate\Support\Facades\DB;
 use App\Actions\CreateProductVariantAction;
-use App\Dtos\CreateProductDto;
+use App\Dtos\CreateUpdateProductDto;
 
 class CreateProductAction
 {
@@ -16,7 +16,7 @@ class CreateProductAction
         $this->createProductVariantAction = $createProductVariantAction;
     }
 
-    public function handle(CreateProductDto $productDto, array $images)
+    public function handle(CreateUpdateProductDto $productDto, array $images)
     {
         return DB::transaction(function () use ($productDto, $images) {
             $product = $this->productRepository->create($productDto->toArray());

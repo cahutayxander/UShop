@@ -470,7 +470,8 @@
                                             type="number"
                                             step="0.01"
                                             min="0"
-                                            wire:model.live="regularPrice"
+                                            wire:model.blur="regularPrice"
+                                            x-on:input="$wire.sellingPrice = null"
                                             placeholder="0.00"
                                             class="w-full rounded bg-transparent py-2.5 pl-8 pr-3 text-sm text-gray-900 outline-none placeholder:text-gray-400 border-none"
                                         />
@@ -490,7 +491,7 @@
                                             id="product-quantity"
                                             type="number"
                                             min="0"
-                                            wire:model.live="quantity"
+                                            wire:model.blur="quantity"
                                             placeholder="Enter stock quantity"
                                             class="w-full rounded border border-gray-300 bg-white py-2.5 px-3 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#ee4d2d]"
                                         />
@@ -504,7 +505,7 @@
                             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                                 {{-- Selling Price --}}
                                 <div>
-                                    <label for="product-price" class="mb-2 block text-sm text-gray-700">
+                                    <label for="product-selling-price" class="mb-2 block text-sm text-gray-700">
                                         Selling Price <span class="text-xs text-gray-500">(if left empty, it will be the same as the regular price)</span>
                                     </label>
                                     <div class="relative rounded border border-gray-300 focus-within:border-[#ee4d2d] transition bg-white">
@@ -512,11 +513,11 @@
                                             ₱
                                         </span>
                                         <input
-                                            id="product-price"
+                                            id="product-selling-price"
                                             type="number"
                                             step="0.01"
                                             min="0"
-                                            wire:model.live="sellingPrice"
+                                            wire:model.blur="sellingPrice"
                                             placeholder="0.00"
                                             class="w-full rounded bg-transparent py-2.5 pl-8 pr-3 text-sm text-gray-900 outline-none placeholder:text-gray-400 border-none"
                                         />
@@ -574,7 +575,7 @@
                             type="submit"
                             class="rounded bg-[#ee4d2d] px-10 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#d73211] cursor-pointer"
                         >
-                            Add Product
+                            {{ $isUpdate ? 'Update' : 'Add' }} Product
                         </button>
                     </div>
                 </form>

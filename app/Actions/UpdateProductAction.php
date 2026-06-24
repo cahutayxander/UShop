@@ -19,6 +19,7 @@ class UpdateProductAction
 
     public function handle(int $productId, CreateUpdateProductDto $productDto, array $existingImageIds, array $images)
     {
+        dd($productDto);
         return DB::transaction(function () use ($productId, $productDto, $existingImageIds, $images) {
             $product = $this->productRepository->update($productId, $productDto->toArray());
 

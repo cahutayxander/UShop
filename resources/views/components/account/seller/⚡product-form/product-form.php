@@ -32,17 +32,17 @@ new #[Layout('layouts.seller')] class extends Component
     #[Validate('required', message: 'Regular price is required')]
     #[Validate('numeric', message: 'Regular price must be a number')]
     #[Validate('min:0', message: 'Regular price must be at least 0')]
-    public float $regularPrice = 0;
+    public ?float $regularPrice = null;
 
-    #[Validate('required', message: 'Selling price is required')]
+    #[Validate('nullable')]
     #[Validate('numeric', message: 'Selling price must be a number')]
     #[Validate('min:0', message: 'Selling price must be at least 0')]
-    public float $sellingPrice = 0;
+    public ?float $sellingPrice = null;
 
     #[Validate('required', message: 'Quantity is required')]
     #[Validate('integer', message: 'Quantity must be an integer')]
     #[Validate('min:0', message: 'Quantity must be at least 0')]
-    public int $quantity = 0;
+    public ?int $quantity = null;
 
     #[Validate('required', message: 'Description is required')]
     public string $description = '';
@@ -104,8 +104,17 @@ new #[Layout('layouts.seller')] class extends Component
         $this->existingImages = array_values($this->existingImages);
     }
 
+    public function updatedRegularPrice($value)
+    {
+        $this->sellingPrice = null;
+    }
+
     public function addProduct()
     {
+        if ($this->sellingPrice === null || $this->sellingPrice === '') {
+            $this->sellingPrice = $this->regularPrice;
+        }
+
         // ── 1. Run full field validation (name, code, description, images) ──
         $this->validate();
 
@@ -126,8 +135,8 @@ new #[Layout('layouts.seller')] class extends Component
         );
 
         $this->isUpdate ?
-            $this->dispatch('updateProduct', productId: $this->productId, payload: $payload->toArray(), existingImages: array_column($this->existingImages, 'id'), images: $this->regularImages) :
-            $this->dispatch('createProduct', payload: $payload->toArray(), images: $this->regularImages);
+            $this->dispatch('updateProduct', productId: $this->productId, payload: $payload, existingImages: array_column($this->existingImages, 'id'), images: $this->regularImages) :
+            $this->dispatch('createProduct', payload: $payload, images: $this->regularImages);
 
         session()->flash('success', 'Product ' . ($this->isUpdate ? 'updated' : 'created') . ' successfully!');
 

@@ -19,11 +19,14 @@
                 @if ($product->discount)
                     <span class="absolute right-0 top-0 bg-[#ee4d2d] px-1.5 py-0.5 text-[11px] font-bold text-white">-{{ $product->discount }}%</span>
                 @endif
-                <span class="absolute right-0 top-0 bg-[#ee4d2d] px-1.5 py-0.5 text-[11px] font-bold text-white">-{{ $this->discountPercentage($product->productVariants) }}%</span>
+                <span class="absolute right-0 top-0 bg-[#ee4d2d] px-1.5 py-0.5 text-[11px] font-bold text-white">
+                    -{{ $this->discountPercentage($product->productVariants) }}%
+                    <!-- {{ $this->discountPercentage($product->productVariants) != 0 ? "-" . $this->discountPercentage($product->productVariants) . "%" : "" }} -->
+                </span>
                 <div class="absolute bottom-0 left-0 right-0 flex flex-wrap gap-0.5 bg-black/55 px-1 py-0.5">
-                    <span class="rounded-[2px] bg-[#00bfa5] px-1 py-px text-[9px] font-bold leading-tight text-white">SPayLater</span>
+                    <!-- <span class="rounded-[2px] bg-[#00bfa5] px-1 py-px text-[9px] font-bold leading-tight text-white">SPayLater</span>
                     <span class="rounded-[2px] bg-[#ff6b00] px-1 py-px text-[9px] font-bold leading-tight text-white">0% INTEREST</span>
-                    <span class="rounded-[2px] bg-[#26a69a] px-1 py-px text-[9px] font-bold leading-tight text-white">UNLI FREE SHIPPING</span>
+                    <span class="rounded-[2px] bg-[#26a69a] px-1 py-px text-[9px] font-bold leading-tight text-white">UNLI FREE SHIPPING</span> -->
                 </div>
             </div>
             <div class="flex flex-1 flex-col gap-1 p-2">

@@ -74,16 +74,54 @@
                     <div class="flex flex-wrap items-center gap-2">
                         <span class="text-xs text-slate-500">Sort by</span>
                         <div class="flex flex-wrap gap-1">
-                            <button type="button" class="rounded bg-orange-500 px-3 py-1.5 text-xs font-medium text-white shadow-sm">Popular</button>
-                            <button type="button" class="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-orange-200">Latest</button>
-                            <button type="button" class="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-orange-200">Top Sales</button>
+                            <button 
+                                wire:click="setSort('popular')"
+                                type="button" 
+                                class="rounded px-3 py-1.5 text-xs font-medium {{ $sortBy === 'popular' ? 'bg-orange-500 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700 hover:border-orange-200' }}"
+                            >
+                                Popular
+                            </button>
+                            <button 
+                                wire:click="setSort('latest')"
+                                type="button" 
+                                class="rounded px-3 py-1.5 text-xs font-medium {{ $sortBy === 'latest' ? 'bg-orange-500 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700 hover:border-orange-200' }}"
+                            >
+                                Latest
+                            </button>
+                            <button 
+                                wire:click="setSort('top_sales')"
+                                type="button" 
+                                class="rounded px-3 py-1.5 text-xs font-medium {{ $sortBy === 'top_sales' ? 'bg-orange-500 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700 hover:border-orange-200' }}"
+                            >
+                                Top Sales
+                            </button>
                         </div>
                         <div class="relative">
-                            <button type="button" class="inline-flex items-center gap-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-orange-200">
+                            <button 
+                                wire:click="setSort('price')"
+                                type="button" 
+                                class="inline-flex items-center gap-1 rounded px-3 py-1.5 text-xs font-medium {{ $sortBy === 'price' ? 'bg-orange-500 text-white shadow-sm' : 'border border-slate-200 bg-white text-slate-700 hover:border-orange-200' }}"
+                            >
                                 Price
-                                <svg class="size-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                                </svg>
+                                @if ($sortBy === 'price')
+                                    @if ($sortOrder === 'asc')
+                                        <span class="text-[10px] opacity-90">(Low to High)</span>
+                                        <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                                            <polyline points="5 12 12 5 19 12"></polyline>
+                                        </svg>
+                                    @else
+                                        <span class="text-[10px] opacity-90">(High to Low)</span>
+                                        <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                                            <polyline points="19 12 12 19 5 12"></polyline>
+                                        </svg>
+                                    @endif
+                                @else
+                                    <svg class="size-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m7 15 5 5 5-5M7 9l5-5 5 5" />
+                                    </svg>
+                                @endif
                             </button>
                         </div>
                     </div>
